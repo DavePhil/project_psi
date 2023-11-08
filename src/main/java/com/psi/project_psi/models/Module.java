@@ -18,4 +18,6 @@ public class Module {
     private String description;
     @ManyToMany
     private List<Competences> competences;
+    @ManyToOne
+    private Project project;
 }

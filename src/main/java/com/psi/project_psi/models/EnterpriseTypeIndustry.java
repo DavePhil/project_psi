@@ -1,22 +1,18 @@
 package com.psi.project_psi.models;
 
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @Entity
 @DynamicUpdate
-public class Users {
+public class EnterpriseTypeIndustry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userName;
-    @Column(unique = true)
-    private String email;
-    private String password;
-
-    @ManyToOne
-    private UserFunction userFunction;
+    private String name;
 }

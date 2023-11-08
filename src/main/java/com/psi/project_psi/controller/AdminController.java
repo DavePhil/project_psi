@@ -51,12 +51,12 @@ public class AdminController {
                     )
             }
     )
-    @GetMapping("/admin")
-    public ResponseEntity<?> login(@RequestBody Admin admin){
-        Optional<Admin> adminSave = adminService.getAdmin(admin.getEmail()); // recuperation de l'admin sauvegardé en base de données
+    @GetMapping("/admin/{email}/{password}")
+    public ResponseEntity<?> login(@PathVariable("email") String email , @PathVariable("password") String password){
+        Optional<Admin> adminSave = adminService.getAdmin(email); // recuperation de l'admin sauvegardé en base de données
         //Verification si le login est correct, si oui vérifiez si le mot de passe entré par l'utilisateur match avec celui hash en base de données
         if (!adminSave.isPresent()) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
-        else if (!adminService.verifyPassword(admin.getPassword(), adminSave.get().getPassword())) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
+        else if (!adminService.verifyPassword(password, adminSave.get().getPassword())) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
         else return new ResponseEntity<>(adminSave, HttpStatus.OK);
     }
 

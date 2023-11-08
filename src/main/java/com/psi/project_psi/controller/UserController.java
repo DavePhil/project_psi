@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -50,7 +47,7 @@ public class UserController {
                                                                     "    \"userFunction\": {\n" +
                                                                     "        \"id\": 1,\n" +
                                                                     "        \"name\": null\n" +
-                                                                    "    }"
+                                                                    "    }  "
                                                     )
                                             }
                                     )
@@ -78,12 +75,12 @@ public class UserController {
                     )
             }
     )
-    @GetMapping("/user")
-    public ResponseEntity<?> login(@RequestBody Users user){
-        Optional<Users> userSave = userService.getUser(user.getEmail()); // recuperation de l'utilisateur sauvegardé en base de données
+    @GetMapping("/user/{email}/{password}")
+    public ResponseEntity<?> login(@PathVariable("email") String email, @PathVariable("password") String password ){
+        Optional<Users> userSave = userService.getUser(email); // recuperation de l'utilisateur sauvegardé en base de données
         //Verification si le login est correct, si oui vérifiez si le mot de passe entré par l'utilisateur match avec celui hash en base de données
         if (!userSave.isPresent()) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
-        else if (!userService.verifyPassword(user.getPassword(), userSave.get().getPassword())) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
+        else if (!userService.verifyPassword(password, userSave.get().getPassword())) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
         else return new ResponseEntity<>(userSave, HttpStatus.OK);
     }
 }

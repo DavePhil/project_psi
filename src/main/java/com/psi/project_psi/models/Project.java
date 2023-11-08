@@ -23,7 +23,10 @@ public class Project {
     private Date dateCreation;
     @ManyToOne
     private Domain domain;
-
+    @ManyToOne
+    private Ville ville;
+    @ManyToOne
+    private Pays pays;
 
     public Project(){
         this.dateCreation = new Date();
