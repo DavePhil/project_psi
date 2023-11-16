@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -93,5 +94,12 @@ public class EnterpriseController {
     @DeleteMapping("/enterprise/{id}")
     public void delete(@PathVariable("id") Long id){
         enterpriseService.deleteById(id);
+    }
+
+    @GetMapping("/entrepriseByUser/{idUser}")
+    public ResponseEntity<?> getByIdUser(@PathVariable("idUser") Long idUser){
+        List<Enterprise> enterprises = enterpriseService.entrepriseListByUser(idUser);
+        if (enterprises.isEmpty()) return new ResponseEntity<>("Aucune entreprise pour cette utilisateur", HttpStatus.OK);
+        return new ResponseEntity<>(enterprises, HttpStatus.OK);
     }
 }

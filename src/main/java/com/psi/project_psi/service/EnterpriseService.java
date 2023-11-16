@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -122,5 +123,9 @@ public class EnterpriseService {
         if (enterprise.getTypeOrganisation()!=null) current.setTypeOrganisation(enterprise.getTypeOrganisation());
         if (enterprise.getCreationDate()!=null) current.setCreationDate(enterprise.getCreationDate());
         return entrepriseRepository.save(current);
+    }
+
+    public List<Enterprise> entrepriseListByUser(Long idUser){
+        return entrepriseRepository.getEnterpriseByUsers(idUser);
     }
 }
