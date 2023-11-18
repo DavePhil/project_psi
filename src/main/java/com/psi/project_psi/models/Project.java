@@ -27,6 +27,8 @@ public class Project {
     private Ville ville;
     @ManyToOne
     private Pays pays;
+    @ManyToOne
+    private Users users;
 
     public Project(){
         this.dateCreation = new Date();

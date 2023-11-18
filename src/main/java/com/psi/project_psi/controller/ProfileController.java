@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -62,6 +63,13 @@ public class ProfileController {
     @DeleteMapping("/profile")
     public void delete(@PathVariable("id") Long id){
         profileService.deleteById(id);
+    }
+
+    @GetMapping("/profileUser/{idUser}")
+    public ResponseEntity<?> getProfileByUser(@PathVariable("idUser") Long idUser){
+        List<Profile> profiles = profileService.findByUser(idUser);
+        if (profiles.isEmpty()) return new ResponseEntity<>("Cette utilisateur n'as pas de profil", HttpStatus.OK);
+        return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 }
 

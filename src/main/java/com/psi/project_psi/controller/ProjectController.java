@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,9 +34,16 @@ public class ProjectController {
         Iterable<Project> projects = projectService.getAll();
         return projects;
     }
-
     @DeleteMapping("/project/{id}")
     public void delete(@PathVariable("id") Long id){
         projectService.deleteById(id);
+    }
+
+    @GetMapping("/projectUser/{idUser}")
+    public ResponseEntity<?> getProjectByUser(@PathVariable("idUser") Long idUser){
+        List<Project> projectList = projectService.findByUser(idUser);
+        if (projectList.isEmpty()) return new ResponseEntity<>("Aucun projet pour cette utilisateur", HttpStatus.OK);
+        return new ResponseEntity<>(projectList, HttpStatus.OK);
+
     }
 }

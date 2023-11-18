@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -62,5 +63,9 @@ public class ProfileService {
         profile.setPhoto("/photo/"+photo.getOriginalFilename());
         profileRepository.save(profile);
         return profile;
+    }
+
+    public List<Profile> findByUser(Long idUser){
+        return profileRepository.findProfileByUsers(idUser);
     }
 }
