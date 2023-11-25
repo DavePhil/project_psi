@@ -16,7 +16,8 @@ public class Users {
     @Column(unique = true)
     private String email;
     private String password;
-
     @ManyToOne
     private UserFunction userFunction;
+    @OneToOne
+    private Profile profile;
 }

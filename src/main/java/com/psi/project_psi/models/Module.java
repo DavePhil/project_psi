@@ -16,8 +16,6 @@ public class Module {
     private Long id;
     private String title;
     private String description;
-    @ManyToMany
-    private List<Competences> competences;
     @ManyToOne
     private Project project;
 }

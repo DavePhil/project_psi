@@ -1,7 +1,9 @@
 package com.psi.project_psi.controller;
 
 import com.psi.project_psi.models.Profile;
+import com.psi.project_psi.models.Users;
 import com.psi.project_psi.service.ProfileService;
+import com.psi.project_psi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
+    @Autowired
+    private UserService userService;
 
     @Operation(
             description = "Ajouter un profil",
@@ -39,12 +43,15 @@ public class ProfileController {
                                     @RequestParam("libelle") String libelle,
                                     @RequestParam("description") String description,
                                     @RequestParam("cv") MultipartFile cv,
-                                    @RequestParam("photo") MultipartFile photo) throws IOException {
+                                    @RequestParam("photo") MultipartFile photo,
+                                    @RequestParam("user") Users users) throws IOException {
         if (!photo.getContentType().equals("image/jpeg") && !photo.getContentType().equals("image/png")){
             return new ResponseEntity<>("Nous n'acceptions que les images de type jpeg ou alors png", HttpStatus.BAD_REQUEST);
         }
         if (!cv.getContentType().equals("application/pdf")) return new ResponseEntity<>("Nous n'acceptons qu'une version pdf de votre CV", HttpStatus.BAD_REQUEST);
-        Profile profile = profileService.create(name, libelle, description, cv, photo);
+        if (profileService.findByUser(users.getId()).isPresent()) return new ResponseEntity<>("Cette utilisateur a déjà un Profile", HttpStatus.BAD_REQUEST);
+        Profile profile = profileService.create(name, libelle, description, cv, photo, users);
+        userService.updateProfile(profile, profile.getUsers());
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
@@ -65,11 +72,11 @@ public class ProfileController {
         profileService.deleteById(id);
     }
 
-    @GetMapping("/profileUser/{idUser}")
-    public ResponseEntity<?> getProfileByUser(@PathVariable("idUser") Long idUser){
-        List<Profile> profiles = profileService.findByUser(idUser);
-        if (profiles.isEmpty()) return new ResponseEntity<>("Cette utilisateur n'as pas de profil", HttpStatus.OK);
-        return new ResponseEntity<>(profiles, HttpStatus.OK);
-    }
+//    @GetMapping("/profileUser/{idUser}")
+//    public ResponseEntity<?> getProfileByUser(@PathVariable("idUser") Long idUser){
+//        List<Profile> profiles = profileService.findByUser(idUser);
+//        if (profiles.isEmpty()) return new ResponseEntity<>("Cette utilisateur n'as pas de profil", HttpStatus.OK);
+//        return new ResponseEntity<>(profiles, HttpStatus.OK);
+//    }
 }
 

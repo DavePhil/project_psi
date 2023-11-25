@@ -1,11 +1,15 @@
 package com.psi.project_psi.controller;
 
+import com.psi.project_psi.models.Profile;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.service.UserService;
+import com.psi.project_psi.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.antlr.v4.runtime.misc.Pair;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

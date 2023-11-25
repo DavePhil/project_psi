@@ -7,9 +7,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @Query("select profile from Profile profile where profile.users.id =:idUser")
-    List<Profile> findProfileByUsers(@Param("idUser") Long idUser);
+    Optional<Profile> findProfileByUsers(@Param("idUser") Long idUser);
 }

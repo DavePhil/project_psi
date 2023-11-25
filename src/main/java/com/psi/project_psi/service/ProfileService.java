@@ -2,6 +2,7 @@ package com.psi.project_psi.service;
 
 
 import com.psi.project_psi.models.Profile;
+import com.psi.project_psi.models.Users;
 import com.psi.project_psi.repository.ProfileRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,12 @@ public class ProfileService {
         profileRepository.deleteById(id);
     }
 
-    public Profile create(String name, String libelle, String description, MultipartFile cv, MultipartFile photo) throws IOException {
+    public Profile create(String name, String libelle, String description, MultipartFile cv, MultipartFile photo, Users users) throws IOException {
         Profile profile = new Profile();
         final String folderPhoto = new ClassPathResource("static/photo").getFile().getAbsolutePath();
         final String folderCv = new ClassPathResource("static/cv").getFile().getAbsolutePath();
         final String routePhoto = ServletUriComponentsBuilder.fromCurrentContextPath().path("/photo/").path(photo.getOriginalFilename()).toUriString();
-        final String routeCv = ServletUriComponentsBuilder.fromCurrentContextPath().path("/cv/").path(photo.getOriginalFilename()).toUriString();
+        final String routeCv = ServletUriComponentsBuilder.fromCurrentContextPath().path("/cv/").path(cv.getOriginalFilename()).toUriString();
         byte [] bytesPhoto = photo.getBytes();
         byte [] bytesCv = cv.getBytes();
         Path pathPhoto = Paths.get(folderPhoto + File.separator + photo.getOriginalFilename());
@@ -60,12 +61,13 @@ public class ProfileService {
         profile.setName(name);
         profile.setDescription(description);
         profile.setWording(libelle);
+        profile.setUsers(users);
         profile.setPhoto("/photo/"+photo.getOriginalFilename());
         profileRepository.save(profile);
         return profile;
     }
 
-    public List<Profile> findByUser(Long idUser){
+    public Optional<Profile> findByUser(Long idUser){
         return profileRepository.findProfileByUsers(idUser);
     }
 }
