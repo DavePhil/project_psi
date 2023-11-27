@@ -1,10 +1,13 @@
 package com.psi.project_psi.controller;
 
+import com.psi.project_psi.models.Competences;
+import com.psi.project_psi.models.Domain;
 import com.psi.project_psi.models.Profile;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.service.ProfileService;
 import com.psi.project_psi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,18 +42,18 @@ public class ProfileController {
             }
     )
     @PostMapping("/profile")
-    public ResponseEntity<?> create(@RequestParam("name") String name,
-                                    @RequestParam("libelle") String libelle,
-                                    @RequestParam("description") String description,
+    public ResponseEntity<?> create(@RequestParam("description") String description,
                                     @RequestParam("cv") MultipartFile cv,
                                     @RequestParam("photo") MultipartFile photo,
-                                    @RequestParam("user") Users users) throws IOException {
+                                    @RequestParam("user") Users users,
+                                    @RequestParam("competences")List<Competences> competences,
+                                    @RequestParam("domain")Domain domain) throws IOException {
         if (!photo.getContentType().equals("image/jpeg") && !photo.getContentType().equals("image/png")){
             return new ResponseEntity<>("Nous n'acceptions que les images de type jpeg ou alors png", HttpStatus.BAD_REQUEST);
         }
         if (!cv.getContentType().equals("application/pdf")) return new ResponseEntity<>("Nous n'acceptons qu'une version pdf de votre CV", HttpStatus.BAD_REQUEST);
         if (profileService.findByUser(users.getId()).isPresent()) return new ResponseEntity<>("Cette utilisateur a déjà un Profile", HttpStatus.BAD_REQUEST);
-        Profile profile = profileService.create(name, libelle, description, cv, photo, users);
+        Profile profile = profileService.create(description, cv, photo, users, competences, domain);
         userService.updateProfile(profile, profile.getUsers());
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }

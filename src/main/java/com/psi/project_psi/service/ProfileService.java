@@ -1,6 +1,8 @@
 package com.psi.project_psi.service;
 
 
+import com.psi.project_psi.models.Competences;
+import com.psi.project_psi.models.Domain;
 import com.psi.project_psi.models.Profile;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.repository.ProfileRepository;
@@ -43,7 +45,7 @@ public class ProfileService {
         profileRepository.deleteById(id);
     }
 
-    public Profile create(String name, String libelle, String description, MultipartFile cv, MultipartFile photo, Users users) throws IOException {
+    public Profile create(String description, MultipartFile cv, MultipartFile photo, Users users, List<Competences> competences, Domain domain) throws IOException {
         Profile profile = new Profile();
         final String folderPhoto = new ClassPathResource("static/photo").getFile().getAbsolutePath();
         final String folderCv = new ClassPathResource("static/cv").getFile().getAbsolutePath();
@@ -58,10 +60,10 @@ public class ProfileService {
         System.out.println(routeCv);
         System.out.println(routePhoto);
         profile.setCurriculumVitae("/cv/"+ cv.getOriginalFilename());
-        profile.setName(name);
         profile.setDescription(description);
-        profile.setWording(libelle);
         profile.setUsers(users);
+        profile.setDomain(domain);
+        profile.setCompetences(competences);
         profile.setPhoto("/photo/"+photo.getOriginalFilename());
         profileRepository.save(profile);
         return profile;

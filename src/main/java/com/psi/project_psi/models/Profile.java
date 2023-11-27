@@ -15,13 +15,14 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String name;
-    private String wording; // wording is libellé in French
     private String description;
     private String curriculumVitae;
     private String photo;
     @JsonIgnore
     @OneToOne
     private Users users;
+    @ManyToMany
+    private List<Competences> competences;
+    @ManyToOne
+    private Domain domain;
 }

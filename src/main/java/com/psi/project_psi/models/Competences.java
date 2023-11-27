@@ -14,5 +14,5 @@ public class Competences {
     private Long id;
     private String name;
     @ManyToOne
-    private Profile profile;
+    private Domain domain;
 }
