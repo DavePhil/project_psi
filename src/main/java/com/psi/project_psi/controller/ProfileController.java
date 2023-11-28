@@ -75,6 +75,11 @@ public class ProfileController {
         profileService.deleteById(id);
     }
 
+    @GetMapping("/profilebydomain/{idDomain}")
+    public List<Profile> getByDomain(@PathVariable("idDomain") Long idDomain){
+        return profileService.findByDomain(idDomain);
+    }
+
 //    @GetMapping("/profileUser/{idUser}")
 //    public ResponseEntity<?> getProfileByUser(@PathVariable("idUser") Long idUser){
 //        List<Profile> profiles = profileService.findByUser(idUser);

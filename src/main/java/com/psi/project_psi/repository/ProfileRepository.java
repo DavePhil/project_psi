@@ -13,4 +13,6 @@ import java.util.Optional;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @Query("select profile from Profile profile where profile.users.id =:idUser")
     Optional<Profile> findProfileByUsers(@Param("idUser") Long idUser);
+    @Query("select profile from Profile profile inner join Domain domain on domain.id=profile.domain.id")
+    List<Profile> findProfileByDomain(@Param("idDomain") Long idDomain);
 }

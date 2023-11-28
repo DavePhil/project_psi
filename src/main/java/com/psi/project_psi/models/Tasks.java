@@ -2,23 +2,17 @@ package com.psi.project_psi.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @Entity
 @DynamicUpdate
-public class BankAccount {
-
+public class Tasks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // Paramètre d'un compte bancaire
-
-
+    private String title;
+    private String description;
     @ManyToOne
-    private Users user;
-
-
+    private Module module;
 }

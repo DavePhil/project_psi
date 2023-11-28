@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,6 +32,11 @@ public class CompetencesController {
     @GetMapping("/competences")
     public Iterable<Competences> getAll(){
         return competencesService.getAll();
+    }
+
+    @GetMapping("/competencesbydomain/{idDomain}")
+    public List<Competences> getByDomain(@PathVariable("idDomain") Long idDomain){
+        return competencesService.findByDomain(idDomain);
     }
 
     @DeleteMapping("/competence/{id}")

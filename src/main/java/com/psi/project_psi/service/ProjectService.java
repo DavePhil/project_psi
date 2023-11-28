@@ -1,5 +1,6 @@
 package com.psi.project_psi.service;
 
+import com.psi.project_psi.models.Competences;
 import com.psi.project_psi.models.Project;
 import com.psi.project_psi.repository.ProjectRepository;
 import lombok.Data;

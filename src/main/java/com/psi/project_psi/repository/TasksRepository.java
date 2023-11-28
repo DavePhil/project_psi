@@ -1,6 +1,6 @@
 package com.psi.project_psi.repository;
 
-import com.psi.project_psi.models.Module;
+import com.psi.project_psi.models.Tasks;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ModuleRepository extends JpaRepository<Module, Long> {
+public interface TasksRepository extends JpaRepository<Tasks, Long> {
 
-    @Query("select module from Module module where module.project.id=:idProject")
-    List<Module> findByProject(@Param("idProject") Long idProject);
+    @Query("select task from Tasks task where task.module.id=:idModule")
+    List<Tasks> findTasksByModule(@Param("idModule") Long idModule);
 }

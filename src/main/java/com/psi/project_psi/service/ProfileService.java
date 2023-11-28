@@ -68,6 +68,9 @@ public class ProfileService {
         profileRepository.save(profile);
         return profile;
     }
+    public List<Profile> findByDomain(Long idDomain){
+        return profileRepository.findProfileByDomain(idDomain);
+    }
 
     public Optional<Profile> findByUser(Long idUser){
         return profileRepository.findProfileByUsers(idUser);
