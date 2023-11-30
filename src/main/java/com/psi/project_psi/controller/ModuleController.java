@@ -33,7 +33,7 @@ public class ModuleController {
         return moduleService.getAll();
     }
 
-    @GetMapping("/module/{idProject}")
+    @GetMapping("/modulesByProject/{idProject}")
     public List<Module> getByProject(@PathVariable("idProject") Long idProject){
         return moduleService.moduleByProject(idProject);
     }
