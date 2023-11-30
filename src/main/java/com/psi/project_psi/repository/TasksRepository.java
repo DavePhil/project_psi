@@ -13,4 +13,6 @@ public interface TasksRepository extends JpaRepository<Tasks, Long> {
 
     @Query("select task from Tasks task where task.module.id=:idModule")
     List<Tasks> findTasksByModule(@Param("idModule") Long idModule);
+
+    Iterable<Tasks> findAllByIsDeleteIsFalse();
 }

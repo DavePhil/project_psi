@@ -21,7 +21,7 @@ public class DomainService {
     }
 
     public Iterable<Domain> getAll(){
-        return domainRepository.findAll();
+        return domainRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Domain> getById(Long id){
@@ -30,5 +30,10 @@ public class DomainService {
 
     public void deleteById(Long id){
         domainRepository.deleteById(id);
+    }
+
+    public void delete (Domain deleteObject){
+        deleteObject.setDelete(true);
+        domainRepository.save(deleteObject);
     }
 }

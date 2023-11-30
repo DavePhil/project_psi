@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaysRepository extends JpaRepository<Pays, Long> {
+    Iterable<Pays> findAllByIsDeleteIsFalse();
 }

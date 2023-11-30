@@ -33,7 +33,11 @@ public class ModuleController {
     }
 
     @DeleteMapping("/module/{id}")
-    public void delete(@PathVariable("id") Long id){
-        moduleService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Module> deleteObject = moduleService.getById(id);
+        if (deleteObject.isPresent()) {
+            moduleService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

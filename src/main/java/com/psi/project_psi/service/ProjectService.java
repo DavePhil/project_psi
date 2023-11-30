@@ -1,6 +1,7 @@
 package com.psi.project_psi.service;
 
 import com.psi.project_psi.models.Competences;
+import com.psi.project_psi.models.Profile;
 import com.psi.project_psi.models.Project;
 import com.psi.project_psi.repository.ProjectRepository;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class ProjectService {
     }
 
     public Iterable<Project> getAll(){
-        return projectRepository.findAll();
+        return projectRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Project> getById(Long id){
@@ -31,6 +32,11 @@ public class ProjectService {
 
     public void deleteById(Long id){
         projectRepository.deleteById(id);
+    }
+
+    public void delete (Project deleteObject){
+        deleteObject.setDelete(true);
+        projectRepository.save(deleteObject);
     }
 
     public List<Project> findByUser(Long idUser){

@@ -12,4 +12,6 @@ import java.util.List;
 public interface CompetencesRepository extends JpaRepository<Competences, Long> {
     @Query("select competences from Competences competences where competences.domain.id=:idDomain")
     List<Competences> findCompetencesByDomain(@Param("idDomain") Long idDomain);
+
+    Iterable<Competences> findAllByIsDeleteIsFalse();
 }

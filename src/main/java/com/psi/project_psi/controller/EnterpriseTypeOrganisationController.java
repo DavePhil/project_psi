@@ -33,7 +33,11 @@ public class EnterpriseTypeOrganisationController {
     }
 
     @DeleteMapping("/typeOrganisation/{id}")
-    public void delete(@PathVariable("id") Long id){
-        typeOrganisationService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<EnterpriseTypeOrganisation> deleteObject = typeOrganisationService.getById(id);
+        if (deleteObject.isPresent()) {
+            typeOrganisationService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

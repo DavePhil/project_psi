@@ -40,7 +40,11 @@ public class CompetencesController {
     }
 
     @DeleteMapping("/competence/{id}")
-    public void delete(@PathVariable("id") Long id){
-        competencesService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Competences> deleteObject = competencesService.getById(id);
+        if (deleteObject.isPresent()) {
+            competencesService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

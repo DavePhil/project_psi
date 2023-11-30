@@ -19,4 +19,6 @@ public class NewsLetters {
     private String description;
     private String image;
 
+    private boolean isDelete = false;
+
 }

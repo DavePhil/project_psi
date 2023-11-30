@@ -34,7 +34,7 @@ public class ProfileService {
     }
 
     public Iterable<Profile> getAll(){
-        return profileRepository.findAll();
+        return profileRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Profile> getById(Long id){
@@ -45,7 +45,7 @@ public class ProfileService {
         profileRepository.deleteById(id);
     }
 
-    public Profile create(String description, MultipartFile cv, MultipartFile photo, Users users, List<Competences> competences, Domain domain) throws IOException {
+    public Profile create(String description, MultipartFile cv, MultipartFile photo, Users users, List<Competences> competences, Domain domain, String linkedIn) throws IOException {
         Profile profile = new Profile();
         final String folderPhoto = new ClassPathResource("static/photo").getFile().getAbsolutePath();
         final String folderCv = new ClassPathResource("static/cv").getFile().getAbsolutePath();
@@ -63,6 +63,7 @@ public class ProfileService {
         profile.setDescription(description);
         profile.setUsers(users);
         profile.setDomain(domain);
+        profile.setLinkedInLink(linkedIn);
         profile.setCompetences(competences);
         profile.setPhoto("/photo/"+photo.getOriginalFilename());
         profileRepository.save(profile);
@@ -74,5 +75,10 @@ public class ProfileService {
 
     public Optional<Profile> findByUser(Long idUser){
         return profileRepository.findProfileByUsers(idUser);
+    }
+
+    public void delete (Profile deleteObject){
+        deleteObject.setDelete(true);
+        profileRepository.save(deleteObject);
     }
 }

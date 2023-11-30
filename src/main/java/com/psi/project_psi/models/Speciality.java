@@ -18,4 +18,5 @@ public class Speciality {
 
     private String titled; // titled is intitulé in French
 
+    private boolean isDelete = false;
 }

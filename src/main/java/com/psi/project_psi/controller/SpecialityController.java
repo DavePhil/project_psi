@@ -33,7 +33,11 @@ public class SpecialityController {
     }
 
     @DeleteMapping("/speciality/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        specialityService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Speciality> deleteObject = specialityService.getById(id);
+        if (deleteObject.isPresent()) {
+            specialityService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

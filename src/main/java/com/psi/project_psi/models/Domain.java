@@ -16,5 +16,6 @@ public class Domain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titled; // titled is intitulé in French
+    private boolean isDelete = false;
 
 }

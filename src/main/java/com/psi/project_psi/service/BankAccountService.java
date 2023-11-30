@@ -26,7 +26,8 @@ public class BankAccountService {
         return bankAccountRepository.findById(id);
     }
 
-    public void deleteById(Long id){
-        bankAccountRepository.deleteById(id);
+    public void delete (BankAccount deleteObject){
+        deleteObject.setDelete(true);
+        bankAccountRepository.save(deleteObject);
     }
 }

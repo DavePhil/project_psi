@@ -20,7 +20,7 @@ public class CandidatureService {
     }
 
     public Iterable<Candidature> getAll(){
-        return candidatureRepository.findAll();
+        return candidatureRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Candidature> getById(Long id){
@@ -29,5 +29,10 @@ public class CandidatureService {
 
     public void deleteById(Long id){
         candidatureRepository.deleteById(id);
+    }
+
+    public void delete (Candidature deleteObject){
+        deleteObject.setDelete(true);
+        candidatureRepository.save(deleteObject);
     }
 }

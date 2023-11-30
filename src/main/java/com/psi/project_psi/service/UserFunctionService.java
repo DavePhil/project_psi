@@ -20,7 +20,7 @@ public class UserFunctionService {
     }
 
     public Iterable<UserFunction> getUserFunctions(){
-        return userFunctionRepository.findAll();
+        return userFunctionRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<UserFunction> getUserFunction(Long id){
@@ -29,6 +29,11 @@ public class UserFunctionService {
 
     public void deleteUserFunction(Long id){
         userFunctionRepository.deleteById(id);
+    }
+
+    public void delete (UserFunction deleteObject){
+        deleteObject.setDelete(true);
+        userFunctionRepository.save(deleteObject);
     }
 
 }

@@ -92,8 +92,12 @@ public class EnterpriseController {
     }
 
     @DeleteMapping("/enterprise/{id}")
-    public void delete(@PathVariable("id") Long id){
-        enterpriseService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Enterprise> deleteObject = enterpriseService.getById(id);
+        if (deleteObject.isPresent()) {
+            enterpriseService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/entrepriseByUser/{idUser}")

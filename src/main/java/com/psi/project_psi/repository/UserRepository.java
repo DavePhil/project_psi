@@ -14,7 +14,5 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<Users, Long> {
 
     Optional<Users> findByEmail(String email);
-    @Query("select profile from Profile profile where profile.users.id=:userId")
-    Profile userProfile(@Param("userId")Long userId);
 
 }

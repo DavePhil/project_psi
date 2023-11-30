@@ -32,4 +32,5 @@ public class Enterprise {
     private String creationDate;
     @ManyToOne
     private Users users;
+    private boolean isDelete = false;
 }

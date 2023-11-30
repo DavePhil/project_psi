@@ -34,7 +34,11 @@ public class DomainController {
     }
 
     @DeleteMapping("/domain/{id}")
-    public void delete(@PathVariable("id") Long id){
-        domainService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Domain> deleteObject = domainService.getById(id);
+        if (deleteObject.isPresent()) {
+            domainService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

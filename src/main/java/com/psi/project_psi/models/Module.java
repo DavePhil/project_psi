@@ -18,4 +18,5 @@ public class Module {
     private String description;
     @ManyToOne
     private Project project;
+    private boolean isDelete = false;
 }

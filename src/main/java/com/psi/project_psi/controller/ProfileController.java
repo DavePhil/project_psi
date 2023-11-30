@@ -47,14 +47,14 @@ public class ProfileController {
                                     @RequestParam("photo") MultipartFile photo,
                                     @RequestParam("user") Users users,
                                     @RequestParam("competences")List<Competences> competences,
+                                    @RequestParam(value = "linkedIn", required = false) String linkedIn,
                                     @RequestParam("domain")Domain domain) throws IOException {
         if (!photo.getContentType().equals("image/jpeg") && !photo.getContentType().equals("image/png")){
             return new ResponseEntity<>("Nous n'acceptions que les images de type jpeg ou alors png", HttpStatus.BAD_REQUEST);
         }
         if (!cv.getContentType().equals("application/pdf")) return new ResponseEntity<>("Nous n'acceptons qu'une version pdf de votre CV", HttpStatus.BAD_REQUEST);
         if (profileService.findByUser(users.getId()).isPresent()) return new ResponseEntity<>("Cette utilisateur a déjà un Profile", HttpStatus.BAD_REQUEST);
-        Profile profile = profileService.create(description, cv, photo, users, competences, domain);
-        userService.updateProfile(profile, profile.getUsers());
+        Profile profile = profileService.create(description, cv, photo, users, competences, domain, linkedIn);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
@@ -71,8 +71,12 @@ public class ProfileController {
     }
 
     @DeleteMapping("/profile")
-    public void delete(@PathVariable("id") Long id){
-        profileService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Profile> deleteObject = profileService.getById(id);
+        if (deleteObject.isPresent()) {
+            profileService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/profilebydomain/{idDomain}")

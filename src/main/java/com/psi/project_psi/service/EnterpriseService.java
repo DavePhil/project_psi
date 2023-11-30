@@ -34,7 +34,7 @@ public class EnterpriseService {
     }
 
     public Iterable<Enterprise> getAll(){
-        return entrepriseRepository.findAll();
+        return entrepriseRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Enterprise> getById(Long id){
@@ -127,5 +127,10 @@ public class EnterpriseService {
 
     public List<Enterprise> entrepriseListByUser(Long idUser){
         return entrepriseRepository.getEnterpriseByUsers(idUser);
+    }
+
+    public void delete (Enterprise deleteObject){
+        deleteObject.setDelete(true);
+        entrepriseRepository.save(deleteObject);
     }
 }

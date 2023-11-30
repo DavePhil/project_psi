@@ -21,7 +21,7 @@ public class NewsLetterService {
     }
 
     public Iterable<NewsLetters> getAll(){
-        return newsLetterRepository.findAll();
+        return newsLetterRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<NewsLetters> getById(Long id){
@@ -30,6 +30,11 @@ public class NewsLetterService {
 
     public void deleteById(Long id){
         newsLetterRepository.deleteById(id);
+    }
+
+    public void delete (NewsLetters deleteObject){
+        deleteObject.setDelete(true);
+        newsLetterRepository.save(deleteObject);
     }
 
 }

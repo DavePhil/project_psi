@@ -29,9 +29,11 @@ public class Project {
     private Pays pays;
     @ManyToOne
     private Users users;
+    private boolean isDelete=false;
 
     public Project(){
         this.dateCreation = new Date();
+
     }
 
 }

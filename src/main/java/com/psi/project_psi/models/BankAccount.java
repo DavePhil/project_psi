@@ -3,7 +3,6 @@ package com.psi.project_psi.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Data
@@ -15,10 +14,7 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     // Paramètre d'un compte bancaire
-
-
     @ManyToOne
     private Users user;
-
-
+    private boolean isDelete = false;
 }

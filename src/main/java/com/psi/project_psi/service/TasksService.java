@@ -20,7 +20,7 @@ public class TasksService {
     }
 
     public Iterable<Tasks> getAll(){
-        return tasksRepository.findAll();
+        return tasksRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Tasks> getById(Long id){return tasksRepository.findById(id);}
@@ -31,5 +31,10 @@ public class TasksService {
 
     public void deleteById(Long id){
         tasksRepository.deleteById(id);
+    }
+
+    public void delete (Tasks deleteObject){
+        deleteObject.setDelete(true);
+        tasksRepository.save(deleteObject);
     }
 }

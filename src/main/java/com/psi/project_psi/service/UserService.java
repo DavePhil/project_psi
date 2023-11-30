@@ -34,9 +34,6 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public Object getUserProfile(Long userId){
-        return userRepository.userProfile(userId);
-    }
     public Optional<Users> getById(Long id){
         return userRepository.findById(id);
     }
@@ -55,8 +52,4 @@ public class UserService {
         return userRepository.save(users);
     }
 
-    public void updateProfile(Profile profile, Users users){
-        if (profile!=null) users.setProfile(profile);
-        userRepository.save(users);
-    }
 }

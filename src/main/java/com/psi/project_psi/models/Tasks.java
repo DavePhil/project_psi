@@ -15,4 +15,5 @@ public class Tasks {
     private String description;
     @ManyToOne
     private Module module;
+    private boolean isDelete = false;
 }

@@ -35,8 +35,12 @@ public class ProjectController {
         return projects;
     }
     @DeleteMapping("/project/{id}")
-    public void delete(@PathVariable("id") Long id){
-        projectService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Project> deleteObject = projectService.getById(id);
+        if (deleteObject.isPresent()) {
+            projectService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/projectUser/{idUser}")
@@ -44,6 +48,5 @@ public class ProjectController {
         List<Project> projectList = projectService.findByUser(idUser);
         if (projectList.isEmpty()) return new ResponseEntity<>("Aucun projet pour cette utilisateur", HttpStatus.OK);
         return new ResponseEntity<>(projectList, HttpStatus.OK);
-
     }
 }

@@ -39,7 +39,11 @@ public class TasksController {
     }
 
     @DeleteMapping("/tasks/{id}")
-    public void delete(@PathVariable("id") Long id){
-        tasksService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Tasks> deleteObject = tasksService.getById(id);
+        if (deleteObject.isPresent()) {
+            tasksService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

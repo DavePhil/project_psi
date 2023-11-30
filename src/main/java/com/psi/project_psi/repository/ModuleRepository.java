@@ -13,4 +13,6 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
 
     @Query("select module from Module module where module.project.id=:idProject")
     List<Module> findByProject(@Param("idProject") Long idProject);
+
+    Iterable<Module> findAllByIsDeleteIsFalse();
 }

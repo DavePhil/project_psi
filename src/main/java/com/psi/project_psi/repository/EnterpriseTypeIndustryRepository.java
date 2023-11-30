@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EnterpriseTypeIndustryRepository extends JpaRepository<EnterpriseTypeIndustry, Long> {
-
+    Iterable<EnterpriseTypeIndustry> findAllByIsDeleteIsFalse();
 }

@@ -2,7 +2,9 @@ package com.psi.project_psi.controller;
 
 
 import com.psi.project_psi.models.UserFunction;
+import com.psi.project_psi.models.Users;
 import com.psi.project_psi.service.UserFunctionService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -36,8 +38,12 @@ public class UserFunctionController {
     }
 
     @DeleteMapping("/function/{id}")
-    public void delete(@PathVariable("id") Long id){
-        userFunctionService.deleteUserFunction(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<UserFunction> deleteObject = userFunctionService.getUserFunction(id);
+        if (deleteObject.isPresent()) {
+            userFunctionService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 
 }

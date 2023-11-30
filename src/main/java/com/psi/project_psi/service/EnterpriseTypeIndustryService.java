@@ -19,7 +19,7 @@ public class EnterpriseTypeIndustryService {
     }
 
     public Iterable<EnterpriseTypeIndustry> getAll(){
-        return industryRepository.findAll();
+        return industryRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<EnterpriseTypeIndustry> getById(Long id){
@@ -28,5 +28,10 @@ public class EnterpriseTypeIndustryService {
 
     public void deleteById(Long id){
         industryRepository.deleteById(id);
+    }
+
+    public void delete (EnterpriseTypeIndustry deleteObject){
+        deleteObject.setDelete(true);
+        industryRepository.save(deleteObject);
     }
 }

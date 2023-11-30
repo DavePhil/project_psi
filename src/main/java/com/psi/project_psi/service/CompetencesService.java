@@ -21,7 +21,7 @@ public class CompetencesService {
     }
 
     public Iterable<Competences> getAll(){
-        return competencesRepository.findAll();
+        return competencesRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Competences> getById(Long id){return competencesRepository.findById(id);}
@@ -32,5 +32,10 @@ public class CompetencesService {
 
     public void deleteById(Long id){
         competencesRepository.deleteById(id);
+    }
+
+    public void delete (Competences deleteObject){
+        deleteObject.setDelete(true);
+        competencesRepository.save(deleteObject);
     }
 }

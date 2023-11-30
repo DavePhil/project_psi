@@ -34,8 +34,12 @@ public class BankAccountController {
     }
 
     @DeleteMapping("/bankaccount/{id}")
-    public void delete(@PathVariable("id") Long id){
-        bankAccountService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<BankAccount> deleteObject = bankAccountService.getById(id);
+        if (deleteObject.isPresent()) {
+            bankAccountService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 
 }

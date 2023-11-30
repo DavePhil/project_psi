@@ -15,4 +15,5 @@ public class Competences {
     private String name;
     @ManyToOne
     private Domain domain;
+    private boolean isDelete = false;
 }

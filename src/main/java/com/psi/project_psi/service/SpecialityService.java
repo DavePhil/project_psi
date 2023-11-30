@@ -21,11 +21,16 @@ public class SpecialityService {
     }
 
     public Iterable<Speciality> getAll(){
-        return specialityRepository.findAll();
+        return specialityRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Speciality> getById(Long id){
         return specialityRepository.findById(id);
+    }
+
+    public void delete (Speciality deleteObject){
+        deleteObject.setDelete(true);
+        specialityRepository.save(deleteObject);
     }
 
     public void deleteById(Long id){

@@ -14,5 +14,6 @@ public class Admin {
     @Column(unique = true)
     private String email;
     private String password;
+    private boolean isDelete = false;
 
 }

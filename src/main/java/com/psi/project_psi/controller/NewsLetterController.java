@@ -33,7 +33,11 @@ public class NewsLetterController {
     }
 
     @DeleteMapping("/newsletter/{id}")
-    public void delete(@PathVariable("id") Long id){
-        newsLetterService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<NewsLetters> deleteObject = newsLetterService.getById(id);
+        if (deleteObject.isPresent()) {
+            newsLetterService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

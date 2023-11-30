@@ -12,4 +12,6 @@ public interface VilleRepository extends JpaRepository<Ville, Long> {
 
     @Query("select v from Ville v inner join Pays p on p.id=v.pays.id where p.id=:idPays")
     List<Ville> findVilleByPays(Long idPays);
+
+    Iterable<Ville> findAllByIsDeleteIsFalse();
 }

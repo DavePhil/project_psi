@@ -17,5 +17,6 @@ public class Candidature {
     private Module module;
     @OneToOne
     private Profile profile;
+    private boolean isDelete = false;
 
 }

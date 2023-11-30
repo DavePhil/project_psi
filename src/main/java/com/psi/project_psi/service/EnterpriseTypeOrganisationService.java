@@ -20,7 +20,7 @@ public class EnterpriseTypeOrganisationService {
     }
 
     public Iterable<EnterpriseTypeOrganisation> getAll(){
-        return organisationRepository.findAll();
+        return organisationRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<EnterpriseTypeOrganisation> getById(Long id){
@@ -29,5 +29,9 @@ public class EnterpriseTypeOrganisationService {
 
     public void deleteById(Long id){
         organisationRepository.deleteById(id);
+    }
+    public void delete (EnterpriseTypeOrganisation deleteObject){
+        deleteObject.setDelete(true);
+        organisationRepository.save(deleteObject);
     }
 }

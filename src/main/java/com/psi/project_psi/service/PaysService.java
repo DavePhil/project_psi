@@ -21,7 +21,7 @@ public class PaysService {
     }
 
     public Iterable<Pays> getAll(){
-        return paysRepository.findAll();
+        return paysRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Pays> getById(Long id){
@@ -30,5 +30,10 @@ public class PaysService {
 
     public void deleteById(Long id){
         paysRepository.deleteById(id);
+    }
+
+    public void delete (Pays deleteObject){
+        deleteObject.setDelete(true);
+        paysRepository.save(deleteObject);
     }
 }

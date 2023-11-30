@@ -1,6 +1,7 @@
 package com.psi.project_psi.controller;
 
 
+import com.psi.project_psi.models.BankAccount;
 import com.psi.project_psi.models.Candidature;
 
 import com.psi.project_psi.service.CandidatureService;
@@ -35,7 +36,13 @@ public class CandidtatureController {
     }
 
     @DeleteMapping("/candidature/{id}")
-    public void delete(@PathVariable("id") Long id){
-        candidatureService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Candidature> deleteObject = candidatureService.getById(id);
+        if (deleteObject.isPresent()) {
+            candidatureService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
+
+
 }

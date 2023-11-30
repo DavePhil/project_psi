@@ -32,7 +32,11 @@ public class EnterpriseTypeIndustryController {
     }
 
     @DeleteMapping("/typeIndustry/{id}")
-    public void delete(@PathVariable("id") Long id){
-        typeIndustryService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<EnterpriseTypeIndustry> deleteObject = typeIndustryService.getById(id);
+        if (deleteObject.isPresent()) {
+            typeIndustryService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

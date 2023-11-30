@@ -18,11 +18,13 @@ public class Profile {
     private String description;
     private String curriculumVitae;
     private String photo;
+    @OneToOne(cascade = CascadeType.ALL)
     @JsonIgnore
-    @OneToOne
     private Users users;
     @ManyToMany
     private List<Competences> competences;
+    private String LinkedInLink;
     @ManyToOne
     private Domain domain;
+    private boolean isDelete = false;
 }

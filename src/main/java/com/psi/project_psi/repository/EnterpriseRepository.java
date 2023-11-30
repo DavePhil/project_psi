@@ -14,4 +14,5 @@ public interface EnterpriseRepository extends JpaRepository<Enterprise, Long> {
 
     @Query("select enterprise from Enterprise enterprise where enterprise.users.id=:idUser")
     List<Enterprise> getEnterpriseByUsers(@Param("idUser") Long idUser);
+    Iterable<Enterprise> findAllByIsDeleteIsFalse();
 }

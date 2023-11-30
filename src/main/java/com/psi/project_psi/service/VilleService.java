@@ -22,7 +22,7 @@ public class VilleService {
     }
 
     public Iterable<Ville> getAll(){
-        return villeRepository.findAll();
+        return villeRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Ville> getById(Long id){

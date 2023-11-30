@@ -20,7 +20,7 @@ public class ModuleService {
     }
 
     public Iterable<Module> getAll(){
-        return moduleRepository.findAll();
+        return moduleRepository.findAllByIsDeleteIsFalse();
     }
 
     public Optional<Module> getById(Long id){
@@ -29,5 +29,10 @@ public class ModuleService {
 
     public void deleteById(Long id){
         moduleRepository.deleteById(id);
+    }
+
+    public void delete (Module deleteObject){
+        deleteObject.setDelete(true);
+        moduleRepository.save(deleteObject);
     }
 }

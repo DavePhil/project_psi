@@ -5,4 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserFunctionRepository extends JpaRepository<UserFunction, Long> {
+
+    Iterable<UserFunction> findAllByIsDeleteIsFalse();
 }

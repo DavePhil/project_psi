@@ -35,8 +35,12 @@ public class PaysController {
     }
 
     @DeleteMapping("/pays/{id}")
-    public void delete(@PathVariable("id") Long id){
-        paysService.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
+        Optional<Pays> deleteObject = paysService.getById(id);
+        if (deleteObject.isPresent()) {
+            paysService.delete(deleteObject.get());
+            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 
 }
