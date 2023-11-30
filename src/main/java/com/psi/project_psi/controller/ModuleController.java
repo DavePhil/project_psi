@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -30,6 +31,11 @@ public class ModuleController {
     @GetMapping("/modules")
     public Iterable<Module> getAll(){
         return moduleService.getAll();
+    }
+
+    @GetMapping("/module/{idProject}")
+    public List<Module> getByProject(@PathVariable("idProject") Long idProject){
+        return moduleService.moduleByProject(idProject);
     }
 
     @DeleteMapping("/module/{id}")
