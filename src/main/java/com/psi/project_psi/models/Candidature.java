@@ -12,10 +12,10 @@ public class Candidature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean isAccept; // candidature acceptée pour le module ?
-    @OneToOne
+    private boolean isAccept = false; // candidature acceptée pour le module ?
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Module module;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Profile profile;
     private boolean isDelete = false;
 
