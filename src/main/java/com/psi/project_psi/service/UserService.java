@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -41,6 +42,8 @@ public class UserService {
     public void deleteUser(Long id){
         userRepository.deleteById(id);
     }
+
+    public List<Users> findAll(){return userRepository.findAllByIsDeleteIsFalse();}
 
     public Users update(Users users, Long id){
         Users current = getById(id).get();
