@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CandidatureRepository extends JpaRepository<Candidature, Long> {
 
@@ -17,4 +19,6 @@ public interface CandidatureRepository extends JpaRepository<Candidature, Long> 
     @Transactional
     @Query("update Candidature candidature set candidature.state = ?1 where candidature.id = ?2")
     int modifyState(State state, Long idCandidature);
+
+    List<Candidature> getCandidatureByState(@Param("state") State state);
 }

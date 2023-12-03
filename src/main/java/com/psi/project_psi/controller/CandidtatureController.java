@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -58,6 +59,11 @@ public class CandidtatureController {
     @PutMapping("/annulercandidature/{id}")
     public ResponseEntity<?> AnnuleCandidature(@PathVariable("id") Long id){
         return candidatureService.changeState(State.Annule,id);
+    }
+
+    @GetMapping("/candidatureByState/{state}")
+    public List<Candidature> getCandidatureByState(@PathVariable("state") State state){
+        return candidatureService.getByState(state);
     }
 
 

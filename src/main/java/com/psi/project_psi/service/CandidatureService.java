@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Data
@@ -44,6 +45,10 @@ public class CandidatureService {
         int done = candidatureRepository.modifyState(state,id);
         if (done!=0) return new ResponseEntity<>("Candidature modifiée", HttpStatus.BAD_REQUEST);
         else return new ResponseEntity<>("Cette candidature n'a pas été validé", HttpStatus.BAD_REQUEST);
+    }
+
+    public List<Candidature> getByState(State state){
+        return candidatureRepository.getCandidatureByState(state);
     }
 
 }
