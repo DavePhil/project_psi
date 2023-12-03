@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface CandidatureRepository extends JpaRepository<Candidature, Long> {
 
     Iterable<Candidature> findAllByIsDeleteIsFalse();
-//    @Modifying
-//    @Transactional
-//    @Query("update Candidature candidature set candidature.state = ?1 where candidature.id = ?2")
-//    int modifyState(State state, Long idCandidature);
+    @Modifying
+    @Transactional
+    @Query("update Candidature candidature set candidature.state = ?1 where candidature.id = ?2")
+    int modifyState(State state, Long idCandidature);
 }

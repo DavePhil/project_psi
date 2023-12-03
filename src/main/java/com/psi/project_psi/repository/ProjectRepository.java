@@ -18,8 +18,8 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findProjectByUsers(@Param("idUser") Long idUser);
     Iterable<Project> findAllByIsDeleteIsFalse();
 
-    @Modifying
-    @Transactional
-    @Query("update Project project set project.state = ?1 where project.id = ?2")
-    int modifyState(State state, Long id);
+//    @Modifying
+//    @Transactional
+//    @Query("update Project project set project.state = ?1 where project.id = ?2")
+//    int modifyState(State state, Long id);
 }
