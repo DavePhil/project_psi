@@ -1,9 +1,12 @@
 package com.psi.project_psi.service;
 
 import com.psi.project_psi.models.Candidature;
+import com.psi.project_psi.models.State;
 import com.psi.project_psi.repository.CandidatureRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -35,4 +38,12 @@ public class CandidatureService {
         deleteObject.setDelete(true);
         candidatureRepository.save(deleteObject);
     }
+    public ResponseEntity<?> changeState(State state, Long id){
+        Optional<Candidature> candidature = getById(id);
+        if (!candidature.isPresent()) return new ResponseEntity<>("Cette candidature n'est pas présente", HttpStatus.BAD_REQUEST);
+        int done = candidatureRepository.modifyState(state,id);
+        if (done!=0) return new ResponseEntity<>("Candidature modifiée", HttpStatus.BAD_REQUEST);
+        else return new ResponseEntity<>("Cette candidature n'a pas été validé", HttpStatus.BAD_REQUEST);
+    }
+
 }

@@ -4,6 +4,7 @@ package com.psi.project_psi.controller;
 import com.psi.project_psi.models.BankAccount;
 import com.psi.project_psi.models.Candidature;
 
+import com.psi.project_psi.models.State;
 import com.psi.project_psi.service.CandidatureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,21 @@ public class CandidtatureController {
             candidatureService.delete(deleteObject.get());
             return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
         }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/validercandidature/{id}")
+    public ResponseEntity<?> validerCandidature(@PathVariable("id") Long id){
+        return candidatureService.changeState(State.Valide,id);
+    }
+
+    @PutMapping("/rejetercandidature/{id}")
+    public ResponseEntity<?> RejeterCandidature(@PathVariable("id") Long id){
+        return candidatureService.changeState(State.Rejette,id);
+    }
+
+    @PutMapping("/annulercandidature/{id}")
+    public ResponseEntity<?> AnnuleCandidature(@PathVariable("id") Long id){
+        return candidatureService.changeState(State.Annule,id);
     }
 
 

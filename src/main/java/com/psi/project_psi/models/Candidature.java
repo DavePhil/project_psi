@@ -12,7 +12,7 @@ public class Candidature {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private boolean isAccept = false; // candidature acceptée pour le module ?
+    private State state = State.EnAttente;
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Module module;
     @ManyToOne(cascade = CascadeType.REMOVE)

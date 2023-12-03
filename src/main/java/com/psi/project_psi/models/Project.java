@@ -20,6 +20,7 @@ public class Project {
     private Long maxAmount;
     private Date delay;
     private String monnaie;
+//    private State state = State.EnAttente;
     private Date dateCreation;
     @ManyToOne
     private Domain domain;
@@ -36,4 +37,6 @@ public class Project {
 
     }
 
+
 }
+
