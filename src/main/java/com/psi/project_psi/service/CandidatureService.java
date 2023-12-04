@@ -43,7 +43,7 @@ public class CandidatureService {
         Optional<Candidature> candidature = getById(id);
         if (!candidature.isPresent()) return new ResponseEntity<>("Cette candidature n'est pas présente", HttpStatus.BAD_REQUEST);
         int done = candidatureRepository.modifyState(state,id);
-        if (done!=0) return new ResponseEntity<>("Candidature modifiée", HttpStatus.BAD_REQUEST);
+        if (done!=0) return new ResponseEntity<>("Candidature modifiée", HttpStatus.OK);
         else return new ResponseEntity<>("Cette candidature n'a pas été validé", HttpStatus.BAD_REQUEST);
     }
 
