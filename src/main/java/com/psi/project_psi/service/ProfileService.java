@@ -6,6 +6,7 @@ import com.psi.project_psi.models.Domain;
 import com.psi.project_psi.models.Profile;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.repository.ProfileRepository;
+import com.psi.project_psi.utils.Utils;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -47,25 +48,15 @@ public class ProfileService {
 
     public Profile create(String description, MultipartFile cv, MultipartFile photo, Users users, List<Competences> competences, Domain domain, String linkedIn) throws IOException {
         Profile profile = new Profile();
-        final String folderPhoto = new ClassPathResource("static/photo").getFile().getAbsolutePath();
-        final String folderCv = new ClassPathResource("static/cv").getFile().getAbsolutePath();
-        final String routePhoto = ServletUriComponentsBuilder.fromCurrentContextPath().path("/photo/").path(photo.getOriginalFilename()).toUriString();
-        final String routeCv = ServletUriComponentsBuilder.fromCurrentContextPath().path("/cv/").path(cv.getOriginalFilename()).toUriString();
-        byte [] bytesPhoto = photo.getBytes();
-        byte [] bytesCv = cv.getBytes();
-        Path pathPhoto = Paths.get(folderPhoto + File.separator + photo.getOriginalFilename());
-        Path pathCv = Paths.get(folderCv + File.separator + cv.getOriginalFilename());
-        Files.write(pathPhoto, bytesPhoto);
-        Files.write(pathCv, bytesCv);
-        System.out.println(routeCv);
-        System.out.println(routePhoto);
-        profile.setCurriculumVitae("/cv/"+ cv.getOriginalFilename());
+        String _photo = Utils.addMultiPartFile("photo",photo);
+        String _cv = Utils.addMultiPartFile("cv",cv);
+        profile.setCurriculumVitae(_cv);
         profile.setDescription(description);
         profile.setUsers(users);
         profile.setDomain(domain);
         profile.setLinkedInLink(linkedIn);
         profile.setCompetences(competences);
-        profile.setPhoto("/photo/"+photo.getOriginalFilename());
+        profile.setPhoto(_photo);
         profileRepository.save(profile);
         return profile;
     }

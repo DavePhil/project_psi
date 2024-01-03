@@ -1,4 +1,4 @@
-package com.psi.project_psi.controller;
+package com.psi.project_psi.controller.freelance;
 
 import com.psi.project_psi.models.Competences;
 import com.psi.project_psi.models.Domain;
@@ -6,6 +6,7 @@ import com.psi.project_psi.models.Profile;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.service.ProfileService;
 import com.psi.project_psi.service.UserService;
+import com.psi.project_psi.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -49,10 +50,10 @@ public class ProfileController {
                                     @RequestParam("competences")List<Competences> competences,
                                     @RequestParam(value = "linkedIn", required = false) String linkedIn,
                                     @RequestParam("domain")Domain domain) throws IOException {
-        if (!photo.getContentType().equals("image/jpeg") && !photo.getContentType().equals("image/png")){
+        if (Utils.verifyImageExtension(photo)){
             return new ResponseEntity<>("Nous n'acceptions que les images de type jpeg ou alors png", HttpStatus.BAD_REQUEST);
         }
-        if (!cv.getContentType().equals("application/pdf")) return new ResponseEntity<>("Nous n'acceptons qu'une version pdf de votre CV", HttpStatus.BAD_REQUEST);
+        if (Utils.verifyFileExtensionType(cv)) return new ResponseEntity<>("Nous n'acceptons qu'une version pdf de votre CV", HttpStatus.BAD_REQUEST);
         if (profileService.findByUser(users.getId()).isPresent()) return new ResponseEntity<>("Cette utilisateur a déjà un Profile", HttpStatus.BAD_REQUEST);
         Profile profile = profileService.create(description, cv, photo, users, competences, domain, linkedIn);
         return new ResponseEntity<>(profile, HttpStatus.OK);

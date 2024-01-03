@@ -1,4 +1,4 @@
-package com.psi.project_psi.controller;
+package com.psi.project_psi.controller.freelance;
 
 import com.psi.project_psi.models.BankAccount;
 

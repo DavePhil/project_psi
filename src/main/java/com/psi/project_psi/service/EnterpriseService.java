@@ -5,6 +5,7 @@ import com.psi.project_psi.models.EnterpriseTypeIndustry;
 import com.psi.project_psi.models.EnterpriseTypeOrganisation;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.repository.EnterpriseRepository;
+import com.psi.project_psi.utils.Utils;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -50,20 +51,10 @@ public class EnterpriseService {
                                         String localisation, String siteWebLink, EnterpriseTypeIndustry typeIndustry, EnterpriseTypeOrganisation typeOrganisation,
                                         Integer teamLength, String creationDate, Users user) throws IOException {
         Enterprise enterprise =  new Enterprise();
-        final String folderLogo = new ClassPathResource("static/logo").getFile().getAbsolutePath();
-        final String folderBanniere = new ClassPathResource("static/banniere").getFile().getAbsolutePath();
-        final String routeLogo = ServletUriComponentsBuilder.fromCurrentContextPath().path("/logo/").path(logo.getOriginalFilename()).toUriString();
-        final String routeBanniere = ServletUriComponentsBuilder.fromCurrentContextPath().path("/banniere/").path(banniere.getOriginalFilename()).toUriString();
-        System.out.println(routeBanniere);
-        System.out.println(routeLogo);
-        byte [] byteLogo = logo.getBytes();
-        byte [] byteBanniere = banniere.getBytes();
-        Path pathLogo = Paths.get(folderLogo + File.separator + logo.getOriginalFilename());
-        Path pathBanniere = Paths.get(folderBanniere + File.separator + banniere.getOriginalFilename());
-        Files.write(pathBanniere, byteBanniere);
-        Files.write(pathLogo, byteLogo);
-        enterprise.setBanniere("/banniere/"+ banniere.getOriginalFilename());
-        enterprise.setLogo("/logo/"+ logo.getOriginalFilename());
+        String _logo = Utils.addMultiPartFile("logo", logo);
+        String _banniere = Utils.addMultiPartFile("banniere",banniere);
+        enterprise.setBanniere(_banniere);
+        enterprise.setLogo(_logo);
         enterprise.setCreationDate(creationDate);
         enterprise.setEmail(email);
         enterprise.setUsers(user);
@@ -84,20 +75,10 @@ public class EnterpriseService {
 
     public Enterprise createEnterprise(MultipartFile logo, MultipartFile banniere, String name, String description, Users user) throws IOException {
         Enterprise enterprise =  new Enterprise();
-        final String folderLogo = new ClassPathResource("static/logo").getFile().getAbsolutePath();
-        final String folderBanniere = new ClassPathResource("static/banniere").getFile().getAbsolutePath();
-        final String routeLogo = ServletUriComponentsBuilder.fromCurrentContextPath().path("/logo/").path(logo.getOriginalFilename()).toUriString();
-        final String routeBanniere = ServletUriComponentsBuilder.fromCurrentContextPath().path("/banniere/").path(banniere.getOriginalFilename()).toUriString();
-        System.out.println(routeBanniere);
-        System.out.println(routeLogo);
-        byte [] byteLogo = logo.getBytes();
-        byte [] byteBanniere = banniere.getBytes();
-        Path pathLogo = Paths.get(folderLogo + File.separator + logo.getOriginalFilename());
-        Path pathBanniere = Paths.get(folderBanniere + File.separator + banniere.getOriginalFilename());
-        Files.write(pathBanniere, byteBanniere);
-        Files.write(pathLogo, byteLogo);
-        enterprise.setBanniere("/banniere/"+ banniere.getOriginalFilename());
-        enterprise.setLogo("/logo/"+ logo.getOriginalFilename());
+        String _logo = Utils.addMultiPartFile("logo", logo);
+        String _banniere = Utils.addMultiPartFile("banniere",banniere);
+        enterprise.setBanniere(_banniere);
+        enterprise.setLogo(_logo);
         enterprise.setUsers(user);
         enterprise.setDescription(description);
         enterprise.setName(name);
