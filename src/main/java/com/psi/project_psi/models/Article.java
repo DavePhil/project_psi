@@ -17,7 +17,7 @@ public class Article {
     private String photo;
     private String description;
     private Long prix;
-    private State state;
+    private State state=State.EnAttente; // En attente de l'approbation d'un admin
     private boolean isDelete = false;
     @ManyToOne
     private Users users;

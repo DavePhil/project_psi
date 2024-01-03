@@ -15,6 +15,6 @@ public class Commandes {
     private Users users;
     @ManyToOne
     private Article article;
-    private State state;
+    private State state = State.EnAttente; // en attente que le vendeur confirme
     private boolean isDelete = false;
 }

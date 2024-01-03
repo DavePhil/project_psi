@@ -2,6 +2,7 @@ package com.psi.project_psi.service;
 
 import com.psi.project_psi.models.Article;
 import com.psi.project_psi.models.Categorie;
+import com.psi.project_psi.models.State;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.repository.ArticleRepository;
 import com.psi.project_psi.utils.Utils;
@@ -50,5 +51,10 @@ public class ArticleService {
     }
     public List<Article> findByCategorie(Long idCategorie){
         return articleRepository.findArticleByCategorie(idCategorie);
+    }
+
+
+    public int modifyArticleState(State articleState, Long id){
+        return articleRepository.modifyState(articleState, id);
     }
 }
