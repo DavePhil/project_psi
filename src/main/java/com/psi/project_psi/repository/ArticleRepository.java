@@ -14,11 +14,11 @@ import java.util.List;
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     Iterable<Article> findAllByIsDeleteIsFalse();
-    @Query("select article from Article article where article.users.id =: userId")
-    List<Article> findByUsers(@Param("idUser") Long id);
-    @Query("select article from Article article where article.users.id !=: userId")
+    @Query("select article from Article article where article.users.id =:userId")
+    List<Article> findByUsers(@Param("userId") Long id);
+    @Query("select article from Article article where article.users.id !=:userId")
     List<Article> findByNotUserId(@Param("userId") Long userId);
-    @Query("select article from Article article where article.categorie.id !=: idCategorie")
+    @Query("select article from Article article where article.categorie.id =:idCategorie")
     List<Article> findArticleByCategorie(@Param("idCategorie") Long idCategorie);
     @Modifying
     @Transactional

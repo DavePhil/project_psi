@@ -1,13 +1,11 @@
 package com.psi.project_psi.service;
 
 import com.psi.project_psi.models.Categorie;
-import com.psi.project_psi.models.Profile;
-import com.psi.project_psi.models.Ville;
 import com.psi.project_psi.repository.CategorieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
