@@ -24,5 +24,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Transactional
     @Query("update Article article set article.state = ?1 where article.id = ?2")
     int modifyState(State articleState, Long id);
+    @Query("select articles from Article articles where articles.categorie.id=:idCategorie and articles.users.id=:idUser")
+    List<Article> findArticleByCategorieAndUsers(@Param("idCategorie") Long idCategorie,@Param("idUser") Long idUser);
 
 }

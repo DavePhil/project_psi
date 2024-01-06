@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,7 +19,7 @@ public class Utils {
         final String route = ServletUriComponentsBuilder.fromCurrentContextPath().path("/"+locationName +"/").path(multipartFile.getOriginalFilename()).toUriString();
         byte [] fileData = multipartFile.getBytes();
         Path path = Paths.get(folder + File.separator + multipartFile.getOriginalFilename());
-        Files.write(path,fileData, StandardOpenOption.CREATE_NEW);
+        Files.write(path,fileData);
         System.out.println(route);
         return  "/" + locationName + "/" + multipartFile.getOriginalFilename();
     }

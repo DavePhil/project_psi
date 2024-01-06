@@ -52,9 +52,10 @@ public class ArticleService {
     public List<Article> findByCategorie(Long idCategorie){
         return articleRepository.findArticleByCategorie(idCategorie);
     }
-
-
     public int modifyArticleState(State articleState, Long id){
         return articleRepository.modifyState(articleState, id);
+    }
+    public List<Article> findByCategorieAndUser(Long idCategorie, Long idUser){
+        return articleRepository.findArticleByCategorieAndUsers(idCategorie,idUser);
     }
 }

@@ -76,5 +76,9 @@ public class ArticleController {
         articleService.modifyArticleState(State.Valide,id);
         return new ResponseEntity<>("Article rejeté", HttpStatus.OK);
     }
+    @GetMapping("/articleByCategorieAndUser/{idCategorie}/{idUser}")
+    public List<Article> findByCategorieAndUser(@PathVariable("idCategorie")Long idCategorie, @PathVariable("idUser")Long idUser){
+        return articleService.findByCategorieAndUser(idCategorie, idUser);
+    }
 
 }
