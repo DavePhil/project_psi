@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface VilleRepository extends JpaRepository<Ville, Long> {
 
-    @Query("select v from Ville v inner join Pays p on p.id=v.pays.id where p.id=:idPays")
+    @Query("select v from Ville v inner join Pays p on p.id=v.pays.id where p.id=:idPays and p.isDelete=false ")
     List<Ville> findVilleByPays(Long idPays);
 
     Iterable<Ville> findAllByIsDeleteIsFalse();

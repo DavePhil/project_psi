@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface TasksRepository extends JpaRepository<Tasks, Long> {
 
-    @Query("select task from Tasks task where task.module.id=:idModule")
+    @Query("select task from Tasks task where task.module.id=:idModule and task.isDelete=false ")
     List<Tasks> findTasksByModule(@Param("idModule") Long idModule);
 
     Iterable<Tasks> findAllByIsDeleteIsFalse();
