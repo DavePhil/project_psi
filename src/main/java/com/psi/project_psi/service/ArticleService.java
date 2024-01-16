@@ -43,6 +43,18 @@ public class ArticleService {
         article.setUsers(users);
         return articleRepository.save(article);
     }
+    public Article updateArticle(MultipartFile photo, String name, Long prix, Categorie categorie, String description, Long id) throws IOException {
+        Article _article = articleRepository.findById(id).get();
+        if (categorie!=null) _article.setCategorie(categorie);
+        if (description!=null) _article.setDescription(description);
+        if (!photo.isEmpty()) {
+            String _photo = Utils.addMultiPartFile("photoArticle",photo);
+            _article.setPhoto(_photo);
+        }
+        if (name!=null)  _article.setNom(name);
+        if (prix!=null) _article.setPrix(prix);
+        return articleRepository.save(_article);
+    }
     public List<Article> findByUserId(Long id){
        return articleRepository.findByUsers(id);
     }
@@ -57,5 +69,9 @@ public class ArticleService {
     }
     public List<Article> findByCategorieAndUser(Long idCategorie, Long idUser){
         return articleRepository.findArticleByCategorieAndUsers(idCategorie,idUser);
+    }
+
+    public List<Article> findByState(State state){
+        return  articleRepository.findArticleByStateAndIsDeleteIsFalse(state);
     }
 }

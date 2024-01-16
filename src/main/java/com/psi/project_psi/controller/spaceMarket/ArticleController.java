@@ -26,7 +26,7 @@ public class ArticleController {
                                     @RequestParam("nom") String nom,
                                     @RequestParam("categorie") Categorie categorie) throws IOException {
         if (Utils.verifyImageExtension(photo)){
-            return new ResponseEntity<>("Nous n'acceptions que les images de type jpeg ou alors png", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Nous n'acceptions que les images de type jpg, jpeg ou alors png", HttpStatus.BAD_REQUEST);
         }
         Article article = articleService.create(photo,nom,prix,categorie,description,users);
         return new ResponseEntity<>(article, HttpStatus.OK);
@@ -81,4 +81,30 @@ public class ArticleController {
         return articleService.findByCategorieAndUser(idCategorie, idUser);
     }
 
+    @PutMapping("article/update")
+    public ResponseEntity<?> update(@RequestParam(name = "description",required = false ) String description,
+                                    @RequestParam(value = "photo", required = false) MultipartFile photo,
+                                    @RequestParam(value = "prix", required = false) Long prix,
+                                    @RequestParam(value = "nom", required = false) String nom,
+                                    @RequestParam(value = "categorie", required = false) Categorie categorie,
+                                    @PathVariable("id") Long id) throws IOException {
+        if (Utils.verifyImageExtension(photo)){
+            return new ResponseEntity<>("Nous n'acceptions que les images de type jpg, jpeg ou alors png", HttpStatus.BAD_REQUEST);
+        }
+        Article article = articleService.updateArticle(photo,nom,prix,categorie,description,id);
+        return new ResponseEntity<>(article, HttpStatus.OK);
+    }
+
+    @GetMapping("articlesValide")
+    public List<Article> getArticleValide(){
+        return articleService.findByState(State.Valide);
+    }
+    @GetMapping("articlesRejette")
+    public List<Article> getArticleRej(){
+        return articleService.findByState(State.Rejette);
+    }
+    @GetMapping("articlesEnAttente")
+    public List<Article> getArticleEnAttente(){
+        return articleService.findByState(State.EnAttente);
+    }
 }

@@ -26,6 +26,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     int modifyState(State articleState, Long id);
     @Query("select articles from Article articles where articles.categorie.id=:idCategorie and articles.users.id=:idUser and articles.isDelete=false")
     List<Article> findArticleByCategorieAndUsers(@Param("idCategorie") Long idCategorie,@Param("idUser") Long idUser);
+    List<Article> findArticleByStateAndIsDeleteIsFalse(State state);
 
     // Écrire les fonctions qui get les articles si l'admin a validé, si l'admin a rejeté ou alors en attente de sa validation
 
