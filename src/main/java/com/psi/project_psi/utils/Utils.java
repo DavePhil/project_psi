@@ -23,8 +23,8 @@ public class Utils {
         System.out.println(route);
         return  "/" + locationName + "/" + multipartFile.getOriginalFilename();
     }
-    public static Boolean verifyImageExtension(MultipartFile multipartFile){
-        return (!multipartFile.getContentType().equals("image/jpeg") && !multipartFile.getContentType().equals("image/png"));
+    public static boolean verifyImageExtension(MultipartFile multipartFile){
+        return (!multipartFile.getContentType().equals("image/jpg") && !multipartFile.getContentType().equals("image/jpeg") && !multipartFile.getContentType().equals("image/png"));
     }
     public static Boolean verifyFileExtensionType(MultipartFile multipartFile){
         return  (!multipartFile.getContentType().equals("application/pdf"));

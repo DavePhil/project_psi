@@ -8,6 +8,7 @@ import com.psi.project_psi.service.EnterpriseService;
 import com.psi.project_psi.utils.Utils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,8 +49,8 @@ public class EnterpriseController {
                                     @RequestParam("siteWebLink") String siteWebLink, @RequestParam("typeIndustry") EnterpriseTypeIndustry typeIndustry,
                                     @RequestParam("typeOrganisation")EnterpriseTypeOrganisation typeOrganisation, @RequestParam("teamLength") Integer teamLength,
                                     @RequestParam("creationDate") String creationDate, @RequestParam("user")Users user) throws IOException {
-        if (Utils.verifyImageExtension(logo) || Utils.verifyFileExtensionType(banniere)){
-            return new ResponseEntity<>("Nous n'acceptions que les images de type jpeg ou alors png", HttpStatus.BAD_REQUEST);
+        if (Utils.verifyImageExtension(logo) || Utils.verifyImageExtension(banniere)){
+            return new ResponseEntity<>("Nous n'acceptions que les images de type jpg, jpeg ou alors png", HttpStatus.BAD_REQUEST);
         }
         Enterprise enterprise = enterpriseService.createEntreprise(logo, banniere, name,description, facebookLink, instagramLink, linkedLink, twitterLink, contactNumber, email, localisation, siteWebLink, typeIndustry,
                 typeOrganisation,teamLength, creationDate, user );
@@ -61,8 +62,8 @@ public class EnterpriseController {
     public ResponseEntity<?> create(@RequestParam("logo")MultipartFile logo, @RequestParam("user")Users user,
                                     @RequestParam("banniere") MultipartFile banniere, @RequestParam("name") String name,
                                     @RequestParam("description") String description) throws IOException {
-        if (Utils.verifyImageExtension(logo) || Utils.verifyFileExtensionType(banniere)){
-            return new ResponseEntity<>("Nous n'acceptions que les images de type jpeg ou alors png", HttpStatus.BAD_REQUEST);
+        if (Utils.verifyImageExtension(logo) || Utils.verifyImageExtension(banniere)){
+            return new ResponseEntity<>("Nous n'acceptions que les images de type jpg, jpeg ou alors png", HttpStatus.BAD_REQUEST);
         }
         Enterprise enterprise = enterpriseService.createEnterprise(logo, banniere, name,description, user);
         return ResponseEntity.ok(enterprise);
