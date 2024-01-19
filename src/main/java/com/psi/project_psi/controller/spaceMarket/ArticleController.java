@@ -81,7 +81,7 @@ public class ArticleController {
         return articleService.findByCategorieAndUser(idCategorie, idUser);
     }
 
-    @PutMapping("article/update")
+    @PutMapping("/article/update")
     public ResponseEntity<?> update(@RequestParam(name = "description",required = false ) String description,
                                     @RequestParam(value = "photo", required = false) MultipartFile photo,
                                     @RequestParam(value = "prix", required = false) Long prix,
@@ -94,17 +94,24 @@ public class ArticleController {
         Article article = articleService.updateArticle(photo,nom,prix,categorie,description,id);
         return new ResponseEntity<>(article, HttpStatus.OK);
     }
-
-    @GetMapping("articlesValide")
+    @GetMapping("/articlesValide")
     public List<Article> getArticleValide(){
         return articleService.findByState(State.Valide);
     }
-    @GetMapping("articlesRejette")
+    @GetMapping("/articlesRejette")
     public List<Article> getArticleRej(){
         return articleService.findByState(State.Rejette);
     }
-    @GetMapping("articlesEnAttente")
+    @GetMapping("/articlesEnAttente")
     public List<Article> getArticleEnAttente(){
         return articleService.findByState(State.EnAttente);
+    }
+    @GetMapping("/articlesPlusVendus")
+    public List<Article> getArticlesPlusVendus(){
+        return articleService.articlesPlusVendus();
+    }
+    @GetMapping("/articlesPlusVendusParCategorie/{idCategorie}")
+    public List<Article> getArticlesPlusVendusParCategorie(@PathVariable("idCategorie") Long idCategorie){
+        return articleService.articlesPlusVendusParCategorie(idCategorie);
     }
 }

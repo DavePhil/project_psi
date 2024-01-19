@@ -70,8 +70,13 @@ public class ArticleService {
     public List<Article> findByCategorieAndUser(Long idCategorie, Long idUser){
         return articleRepository.findArticleByCategorieAndUsers(idCategorie,idUser);
     }
-
     public List<Article> findByState(State state){
         return  articleRepository.findArticleByStateAndIsDeleteIsFalse(state);
+    }
+    public List<Article> articlesPlusVendus(){
+        return articleRepository.ArticlesPlusVendus();
+    }
+    public List<Article> articlesPlusVendusParCategorie(Long idCategorie){
+        return articleRepository.ArticlesPlusVendusParCategorie(idCategorie);
     }
 }
