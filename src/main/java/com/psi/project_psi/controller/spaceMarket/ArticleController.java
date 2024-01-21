@@ -65,14 +65,14 @@ public class ArticleController {
     @PutMapping("/article/valide/{id}")
     public ResponseEntity<?> valide(@PathVariable("id") Long id){
         Optional<Article> article = articleService.getById(id);
-        if (article.isPresent()) return new ResponseEntity<>("Cet article n'existe pas", HttpStatus.BAD_REQUEST);
+        if (!article.isPresent()) return new ResponseEntity<>("Cet article n'existe pas", HttpStatus.BAD_REQUEST);
         articleService.modifyArticleState(State.Valide,id);
         return new ResponseEntity<>("Article validé", HttpStatus.OK);
     }
     @PutMapping("/article/rejette/{id}")
     public ResponseEntity<?> rejette(@PathVariable("id") Long id){
         Optional<Article> article = articleService.getById(id);
-        if (article.isPresent()) return new ResponseEntity<>("Cet article n'existe pas", HttpStatus.BAD_REQUEST);
+        if (!article.isPresent()) return new ResponseEntity<>("Cet article n'existe pas", HttpStatus.BAD_REQUEST);
         articleService.modifyArticleState(State.Valide,id);
         return new ResponseEntity<>("Article rejeté", HttpStatus.OK);
     }
