@@ -73,7 +73,7 @@ public class ArticleController {
     public ResponseEntity<?> rejette(@PathVariable("id") Long id){
         Optional<Article> article = articleService.getById(id);
         if (!article.isPresent()) return new ResponseEntity<>("Cet article n'existe pas", HttpStatus.BAD_REQUEST);
-        articleService.modifyArticleState(State.Valide,id);
+        articleService.modifyArticleState(State.Rejette,id);
         return new ResponseEntity<>("Article rejeté", HttpStatus.OK);
     }
     @GetMapping("/articleByCategorieAndUser/{idCategorie}/{idUser}")
@@ -81,7 +81,7 @@ public class ArticleController {
         return articleService.findByCategorieAndUser(idCategorie, idUser);
     }
 
-    @PutMapping("/article/update")
+    @PutMapping("/article/update/{id}")
     public ResponseEntity<?> update(@RequestParam(name = "description",required = false ) String description,
                                     @RequestParam(value = "photo", required = false) MultipartFile photo,
                                     @RequestParam(value = "prix", required = false) Long prix,
