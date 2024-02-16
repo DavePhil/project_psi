@@ -13,14 +13,12 @@ import java.util.Optional;
 @Data
 @Service
 public class ActualiteService {
-
     @Autowired
     ActualiteRepository newsLetterRepository;
     @Autowired
     NewsLetterSouscriptionService newsLetterSouscriptionService;
     @Autowired
     MailService mailService;
-
     public Actualite create(Actualite actualite){
         Iterable<NewsLetterSouscription> souscriptions =  newsLetterSouscriptionService.getAll();
         for (NewsLetterSouscription souscription : souscriptions){
