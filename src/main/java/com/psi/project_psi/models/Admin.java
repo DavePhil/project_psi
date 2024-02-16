@@ -13,6 +13,7 @@ public class Admin {
     private Long id;
     @Column(unique = true)
     private String email;
+    private String name;
     private String password;
     private boolean isDelete = false;
 

@@ -1,12 +1,15 @@
 package com.psi.project_psi.controller.freelance;
 
 import com.psi.project_psi.models.Actualite;
+import com.psi.project_psi.models.Admin;
 import com.psi.project_psi.service.ActualiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -16,8 +19,9 @@ public class ActualiteController {
     private ActualiteService actualiteService;
 
     @PostMapping("/actualite")
-    public Actualite create(@RequestBody Actualite actualite){
-        return actualiteService.create(actualite);
+    public Actualite create(@RequestParam("title") String title, @RequestParam("description") String description,
+                            @RequestParam("image")MultipartFile image, @RequestParam("admin") Admin admin) throws IOException {
+        return actualiteService.create(title,description,image,admin);
     }
 
     @GetMapping("/actualite/{id}")
