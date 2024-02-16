@@ -1,9 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
-import com.psi.project_psi.models.Competences;
-import com.psi.project_psi.models.Domain;
-import com.psi.project_psi.models.Profile;
-import com.psi.project_psi.models.Users;
+import com.psi.project_psi.models.*;
 import com.psi.project_psi.service.ProfileService;
 import com.psi.project_psi.service.UserService;
 import com.psi.project_psi.utils.Utils;
@@ -84,6 +81,21 @@ public class ProfileController {
     public List<Profile> getByDomain(@PathVariable("idDomain") Long idDomain){
         return profileService.findByDomain(idDomain);
     }
+    @PutMapping("/profile/valide/{id}")
+    public ResponseEntity<?> valide(@PathVariable("id") Long id){
+        Optional<Profile> profile = profileService.getById(id);
+        if (profile.isPresent()) return new ResponseEntity<>("Ce profil n'existe pas", HttpStatus.BAD_REQUEST);
+        profileService.modifyState(State.Valide,id);
+        return new ResponseEntity<>("profil validé", HttpStatus.OK);
+    }
+    @PutMapping("/profile/rejette/{id}")
+    public ResponseEntity<?> rejette(@PathVariable("id") Long id){
+        Optional<Profile> profile = profileService.getById(id);
+        if (profile.isPresent()) return new ResponseEntity<>("Cet profile n'existe pas", HttpStatus.BAD_REQUEST);
+        profileService.modifyState(State.Valide,id);
+        return new ResponseEntity<>("profil rejeté", HttpStatus.OK);
+    }
+
 
 //    @GetMapping("/profileUser/{idUser}")
 //    public ResponseEntity<?> getProfileByUser(@PathVariable("idUser") Long idUser){

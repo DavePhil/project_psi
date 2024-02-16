@@ -1,10 +1,7 @@
 package com.psi.project_psi.service;
 
 
-import com.psi.project_psi.models.Competences;
-import com.psi.project_psi.models.Domain;
-import com.psi.project_psi.models.Profile;
-import com.psi.project_psi.models.Users;
+import com.psi.project_psi.models.*;
 import com.psi.project_psi.repository.ProfileRepository;
 import com.psi.project_psi.utils.Utils;
 import lombok.Data;
@@ -71,5 +68,8 @@ public class ProfileService {
     public void delete (Profile deleteObject){
         deleteObject.setDelete(true);
         profileRepository.save(deleteObject);
+    }
+    public int modifyState(State articleState, Long id){
+        return profileRepository.modifyState(articleState, id);
     }
 }

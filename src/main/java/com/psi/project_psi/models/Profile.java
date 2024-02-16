@@ -28,5 +28,6 @@ public class Profile {
     private String LinkedInLink;
     @ManyToOne
     private Domain domain;
+    private State state=State.EnAttente;
     private boolean isDelete = false;
 }

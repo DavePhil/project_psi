@@ -1,7 +1,7 @@
 package com.psi.project_psi.controller.freelance;
 
-import com.psi.project_psi.models.NewsLetters;
-import com.psi.project_psi.service.NewsLetterService;
+import com.psi.project_psi.models.Actualite;
+import com.psi.project_psi.service.ActualiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,33 +10,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-public class NewsLetterController {
+public class ActualiteController {
 
     @Autowired
-    private NewsLetterService newsLetterService;
+    private ActualiteService actualiteService;
 
-    @PostMapping("/newsletter")
-    public NewsLetters create(@RequestBody NewsLetters newsLetters){
-        return newsLetterService.create(newsLetters);
+    @PostMapping("/actualite")
+    public Actualite create(@RequestBody Actualite actualite){
+        return actualiteService.create(actualite);
     }
 
-    @GetMapping("/newsletter/{id}")
+    @GetMapping("/actualite/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
-        Optional<NewsLetters> newsLetters = newsLetterService.getById(id);
+        Optional<Actualite> newsLetters = actualiteService.getById(id);
         if (!newsLetters.isPresent()) return new ResponseEntity<>("Cette newsLetter n'existe pas", HttpStatus.OK);
         return new ResponseEntity<>(newsLetters, HttpStatus.OK);
     }
 
-    @GetMapping("/newletters")
-    public Iterable<NewsLetters> getAll(){
-        return newsLetterService.getAll();
+    @GetMapping("/actualites")
+    public Iterable<Actualite> getAll(){
+        return actualiteService.getAll();
     }
 
-    @DeleteMapping("/newsletter/{id}")
+    @DeleteMapping("/actualite/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
-        Optional<NewsLetters> deleteObject = newsLetterService.getById(id);
+        Optional<Actualite> deleteObject = actualiteService.getById(id);
         if (deleteObject.isPresent()) {
-            newsLetterService.delete(deleteObject.get());
+            actualiteService.delete(deleteObject.get());
             return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
         }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }

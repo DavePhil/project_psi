@@ -10,7 +10,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class NewsLetters {
+public class Actualite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
