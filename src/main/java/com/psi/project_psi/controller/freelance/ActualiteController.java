@@ -19,8 +19,8 @@ public class ActualiteController {
     private ActualiteService actualiteService;
 
     @PostMapping("/actualite")
-    public Actualite create(@RequestParam("title") String title, @RequestParam("description") String description,
-                            @RequestParam("image")MultipartFile image, @RequestParam("admin") Admin admin) throws IOException {
+    public Actualite create(@RequestParam("title") String title, @RequestParam(value = "description", required = false) String description,
+                            @RequestParam(value = "image", required = false)MultipartFile image , @RequestParam(value = "admin", required = false) Admin admin) throws IOException {
         return actualiteService.create(title,description,image,admin);
     }
 
