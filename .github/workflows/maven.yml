@@ -47,10 +47,10 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy to Server
         run: |
-          ssh ${SERVER_USERNAME}@${SERVER_HOST} 'docker pull davechedjoun/psi-backend:latest'
-          ssh ${SERVER_USERNAME}@${SERVER_HOST} 'docker stop psi-backend || true'
-          ssh ${SERVER_USERNAME}@${SERVER_HOST} 'docker rm psi-backend || true'
-          ssh ${SERVER_USERNAME}@${SERVER_HOST} 'docker run -d --name psi-backend -p 4000:4000 davechedjoun/psi-backend:latest'
+          ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} 'docker pull davechedjoun/psi-backend:latest'
+          ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} 'docker stop psi-backend || true'
+          ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} 'docker rm psi-backend || true'
+          ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 davechedjoun/psi-backend:latest'
         env:
           SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
           SERVER_HOST: ${{ secrets.SERVER_HOST }}
