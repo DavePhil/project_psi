@@ -49,7 +49,7 @@ jobs:
           port: ${{ secrets.WINDOWS_SERVER_PORT }}
           script:
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-           docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest
 #      - name: Deploy to Server
 #        run: |
 #          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
