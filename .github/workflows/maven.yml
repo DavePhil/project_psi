@@ -45,8 +45,8 @@ jobs:
         with:
           host: ${{ secrets.WINDOWS_SERVER_HOST }}
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
-          password: ${{ secrets.WINDOWS_SERVER_PASSWORD }}
-#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          password: ${{ secrets.WINDOWS_SERVER_PASSWORD }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.WINDOWS_SERVER_PORT }}
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
