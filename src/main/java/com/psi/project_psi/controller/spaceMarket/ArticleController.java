@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.spaceMarket;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.*;
 import com.psi.project_psi.service.ArticleService;
 import com.psi.project_psi.utils.Utils;
@@ -26,7 +27,7 @@ public class ArticleController {
                                     @RequestParam("nom") String nom,
                                     @RequestParam("categorie") Categorie categorie) throws IOException {
         if (Utils.verifyImageExtension(photo)){
-            return new ResponseEntity<>("Nous n'acceptions que les images de type jpg, jpeg ou alors png", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("TYPE_IMAGE_NON_PRIS_EN_CHARGE", HttpStatus.BAD_REQUEST);
         }
         Article article = articleService.create(photo,nom,prix,categorie,description,users);
         return new ResponseEntity<>(article, HttpStatus.OK);
@@ -51,7 +52,7 @@ public class ArticleController {
     @GetMapping("/article/{id}")
     public ResponseEntity<?> findById(@PathVariable("id")Long id){
         Optional<Article> article = articleService.getById(id);
-        if (article.isPresent()) return new ResponseEntity<>("Cet article n'existe pas", HttpStatus.BAD_REQUEST);
+        if (article.isPresent()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return  ResponseEntity.ok(article);
     }
     @DeleteMapping("/article/{id}")
@@ -59,22 +60,22 @@ public class ArticleController {
         Optional<Article> deleteObject = articleService.getById(id);
         if (deleteObject.isPresent()) {
             articleService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/article/valide/{id}")
     public ResponseEntity<?> valide(@PathVariable("id") Long id){
         Optional<Article> article = articleService.getById(id);
-        if (!article.isPresent()) return new ResponseEntity<>("Cet article n'existe pas", HttpStatus.BAD_REQUEST);
+        if (article.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         articleService.modifyArticleState(State.Valide,id);
-        return new ResponseEntity<>("Article validé", HttpStatus.OK);
+        return CustomResponseEntity.fromKey("ARTICLE_VALIDE", HttpStatus.OK);
     }
     @PutMapping("/article/rejette/{id}")
     public ResponseEntity<?> rejette(@PathVariable("id") Long id){
         Optional<Article> article = articleService.getById(id);
-        if (!article.isPresent()) return new ResponseEntity<>("Cet article n'existe pas", HttpStatus.BAD_REQUEST);
+        if (article.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         articleService.modifyArticleState(State.Rejette,id);
-        return new ResponseEntity<>("Article rejeté", HttpStatus.OK);
+        return CustomResponseEntity.fromKey("ARTICLE_REJETE", HttpStatus.OK);
     }
     @GetMapping("/articleByCategorieAndUser/{idCategorie}/{idUser}")
     public List<Article> findByCategorieAndUser(@PathVariable("idCategorie")Long idCategorie, @PathVariable("idUser")Long idUser){
@@ -89,7 +90,7 @@ public class ArticleController {
                                     @RequestParam(value = "categorie", required = false) Categorie categorie,
                                     @PathVariable("id") Long id) throws IOException {
         if (Utils.verifyImageExtension(photo)){
-            return new ResponseEntity<>("Nous n'acceptions que les images de type jpg, jpeg ou alors png", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("TYPE_IMAGE_NON_PRIS_EN_CHARGE", HttpStatus.BAD_REQUEST);
         }
         Article article = articleService.updateArticle(photo,nom,prix,categorie,description,id);
         return new ResponseEntity<>(article, HttpStatus.OK);

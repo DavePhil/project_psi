@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.NewsLetterSouscription;
 import com.psi.project_psi.models.Ville;
 import com.psi.project_psi.service.NewsLetterSouscriptionService;
@@ -27,7 +28,7 @@ public class NewsLetterSouscriptionController {
     @GetMapping("/souscription/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<NewsLetterSouscription> souscription = souscriptionService.getById(id);
-        if (!souscription.isPresent()) return new ResponseEntity<>("Cette souscription n'existe pas", HttpStatus.BAD_REQUEST);
+        if (souscription.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(souscription, HttpStatus.OK);
     }
 
@@ -38,8 +39,8 @@ public class NewsLetterSouscriptionController {
 
 
     @DeleteMapping("/souscription/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
         souscriptionService.deleteById(id);
-        return new ResponseEntity<>("Objet supprimé avec succès", HttpStatus.OK);
+        return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
     }
 }

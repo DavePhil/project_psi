@@ -1,6 +1,7 @@
 package com.psi.project_psi.controller.freelance;
 
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.UserFunction;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.service.UserFunctionService;
@@ -33,7 +34,7 @@ public class UserFunctionController {
     @GetMapping("/function/{id}")
     public ResponseEntity<?> functionById(@PathVariable("id") Long id){
         Optional<UserFunction> userFunction = userFunctionService.getUserFunction(id);
-        if (!userFunction.isPresent()) return new ResponseEntity<>("Cette fonction n'existe pas", HttpStatus.BAD_REQUEST);
+        if (userFunction.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(userFunction, HttpStatus.OK);
     }
 
@@ -42,8 +43,8 @@ public class UserFunctionController {
         Optional<UserFunction> deleteObject = userFunctionService.getUserFunction(id);
         if (deleteObject.isPresent()) {
             userFunctionService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 
 }

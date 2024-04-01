@@ -1,6 +1,8 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Profile;
+import com.psi.project_psi.models.Role;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.service.UserService;
 import com.psi.project_psi.utils.Utils;
@@ -8,11 +10,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.antlr.v4.runtime.misc.Pair;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,8 +62,8 @@ public class UserController {
             }
     )
     @PostMapping("/user")
-    public ResponseEntity<?> createAdmin(@RequestBody Users user){
-        if (userService.getUser(user.getEmail()).isPresent()) return new ResponseEntity<>("Cette utilisateur existe déjà", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> create(@RequestBody Users user){
+        if (userService.getUser(user.getEmail()).isPresent()) return CustomResponseEntity.fromKey("USER_ALREADY_EXISTS", HttpStatus.BAD_REQUEST);
         Users saveUser = userService.CreateUser(user); // Recuperation de l'instance à sauvegarder
         return new ResponseEntity<>(saveUser, HttpStatus.OK);
     }
@@ -84,9 +85,29 @@ public class UserController {
     public ResponseEntity<?> login(@PathVariable("email") String email, @PathVariable("password") String password ){
         Optional<Users> userSave = userService.getUser(email); // recuperation de l'utilisateur sauvegardé en base de données
         //Verification si le login est correct, si oui vérifiez si le mot de passe entré par l'utilisateur match avec celui hash en base de données
-        if (!userSave.isPresent()) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
-        else if (!userService.verifyPassword(password, userSave.get().getPassword())) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
-        else return new ResponseEntity<>(userSave, HttpStatus.OK);
+        if (userSave.isEmpty()) return CustomResponseEntity.fromKey("INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST);
+        else if (!userService.verifyPassword(password, userSave.get().getPassword())) return CustomResponseEntity.fromKey("INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(userSave, HttpStatus.OK);
+    }
+
+    @PostMapping("auth/authenticate")
+    public ResponseEntity<?> authenticate(@RequestBody AuthentificationRequest request){
+        Optional<Users> userSave = userService.getUser(request.getEmail()); // recuperation de l'utilisateur sauvegardé en base de données
+        return userService.authenticate(userSave, request.getPassword());
+    }
+
+    @PostMapping("auth/register")
+    public ResponseEntity<?> register(@RequestBody Users users){
+        if (userService.getUser(users.getEmail()).isPresent()) return CustomResponseEntity.fromKey("USER_ALREADY_EXISTS", HttpStatus.BAD_REQUEST);
+        users.setRole(Role.USER);
+        return ResponseEntity.ok(userService.register(users));
+    }
+
+    @PostMapping("/registerAdmin")
+    public ResponseEntity<?> registerAdmin(@RequestBody Users users){
+        if (userService.getUser(users.getEmail()).isPresent()) return CustomResponseEntity.fromKey("USER_ALREADY_EXISTS", HttpStatus.BAD_REQUEST);
+        users.setRole(Role.ADMIN);
+        return ResponseEntity.ok(userService.register(users));
     }
 
     @GetMapping("/users")

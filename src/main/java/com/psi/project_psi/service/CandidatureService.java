@@ -1,5 +1,6 @@
 package com.psi.project_psi.service;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Candidature;
 import com.psi.project_psi.models.State;
 import com.psi.project_psi.repository.CandidatureRepository;
@@ -39,12 +40,12 @@ public class CandidatureService {
         deleteObject.setDelete(true);
         candidatureRepository.save(deleteObject);
     }
-    public ResponseEntity<?> changeState(State state, Long id){
+    public ResponseEntity<?> changeState(State state, Long id,String message){
         Optional<Candidature> candidature = getById(id);
-        if (!candidature.isPresent()) return new ResponseEntity<>("Cette candidature n'est pas présente", HttpStatus.BAD_REQUEST);
+        if (!candidature.isPresent())  return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);;
         int done = candidatureRepository.modifyState(state,id);
-        if (done!=0) return new ResponseEntity<>("Candidature modifiée", HttpStatus.OK);
-        else return new ResponseEntity<>("Cette candidature n'a pas été validé", HttpStatus.BAD_REQUEST);
+        if (done!=0)  return CustomResponseEntity.fromKey(message, HttpStatus.BAD_REQUEST);
+        else  return CustomResponseEntity.fromKey("ERREUR_TRAITEMENT_CANDIDATURE", HttpStatus.BAD_REQUEST);
     }
 
     public List<Candidature> getByState(State state){

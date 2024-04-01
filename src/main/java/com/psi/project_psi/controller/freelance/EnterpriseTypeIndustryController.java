@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.EnterpriseTypeIndustry;
 import com.psi.project_psi.service.EnterpriseTypeIndustryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class EnterpriseTypeIndustryController {
     @GetMapping("/typeIndustry/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<EnterpriseTypeIndustry> typeIndustry = typeIndustryService.getById(id);
-        if (!typeIndustry.isPresent()) return new ResponseEntity<>("Ce type d'industrie n'est pas présent", HttpStatus.BAD_REQUEST);
+        if (typeIndustry.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(typeIndustry, HttpStatus.OK);
     }
 
@@ -36,7 +37,7 @@ public class EnterpriseTypeIndustryController {
         Optional<EnterpriseTypeIndustry> deleteObject = typeIndustryService.getById(id);
         if (deleteObject.isPresent()) {
             typeIndustryService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 }

@@ -1,12 +1,16 @@
 package com.psi.project_psi.service;
 
-import com.psi.project_psi.models.Profile;
+import com.psi.project_psi.controller.freelance.AuthentificationResponse;
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.repository.UserRepository;
+import com.psi.project_psi.security.JwtService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,17 +22,43 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final JwtService jwtService;
+    @Autowired
+    private final AuthenticationManager authenticationManager;
 
     public Users CreateUser(Users user){
-        String encodePassword = bCryptPasswordEncoder.encode(user.getPassword());
+        String encodePassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodePassword);
         userRepository.save(user);
         return user;
     }
 
-    public Boolean verifyPassword(String password, String passwordHaché){
-        return bCryptPasswordEncoder.matches(password,passwordHaché);
+    public AuthentificationResponse register(Users user){
+        String encodePassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodePassword);
+        userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+        return AuthentificationResponse.builder()
+                .users(user)
+                .token(jwtToken)
+                .build();
+    }
+
+    public ResponseEntity<?> authenticate(Optional<Users> user, String password){
+        if (!user.isPresent())  return CustomResponseEntity.fromKey("INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST);
+        else if (!verifyPassword(password, user.get().getPassword()))  return CustomResponseEntity.fromKey("INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST);
+        var jwtToken = jwtService.generateToken(user.get());
+        AuthentificationResponse response = AuthentificationResponse.builder()
+                .users(user.get())
+                .token(jwtToken)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    public Boolean verifyPassword(String password, String passwordHache){
+        return passwordEncoder.matches(password,passwordHache);
     }
 
     public Optional<Users> getUser(String email){
@@ -54,5 +84,7 @@ public class UserService {
         if (users.getProfile()!=null) current.setProfile(users.getProfile());
         return userRepository.save(users);
     }
+
+
 
 }

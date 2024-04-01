@@ -1,10 +1,12 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Ville;
 import com.psi.project_psi.service.VilleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+//@PreAuthorize("hasAnyAuthority('ADMIN','TEST')")
 public class VilleController{
 
     @Autowired
@@ -26,7 +29,7 @@ public class VilleController{
     @GetMapping("/ville/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<Ville> ville = villeService.getById(id);
-        if (!ville.isPresent()) return new ResponseEntity<>("Cette ville n'existe pas", HttpStatus.BAD_REQUEST);
+        if (ville.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(ville, HttpStatus.OK);
     }
 
@@ -41,8 +44,8 @@ public class VilleController{
     }
 
     @DeleteMapping("/ville/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id){
+    public ResponseEntity<?> delete(@PathVariable("id") Long id){
         villeService.deleteById(id);
-        return new ResponseEntity<>("Objet supprimé avec succès", HttpStatus.OK);
+        return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
     }
 }

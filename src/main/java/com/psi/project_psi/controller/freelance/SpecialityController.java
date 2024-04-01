@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Speciality;
 import com.psi.project_psi.service.SpecialityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class SpecialityController {
     @GetMapping("/speciality/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<Speciality> speciality = specialityService.getById(id);
-        if (!speciality.isPresent()) return new ResponseEntity<>("Cette spécialité est manquante", HttpStatus.BAD_REQUEST);
+        if (speciality.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(speciality, HttpStatus.OK);
     }
 
@@ -37,7 +38,7 @@ public class SpecialityController {
         Optional<Speciality> deleteObject = specialityService.getById(id);
         if (deleteObject.isPresent()) {
             specialityService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 }

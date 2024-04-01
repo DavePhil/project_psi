@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Module;
 import com.psi.project_psi.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ModuleController {
     @GetMapping("/module/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<Module> module = moduleService.getById(id);
-        if (!module.isPresent()) return new ResponseEntity<>("Ce module n'est pas présent", HttpStatus.BAD_REQUEST);
+        if (module.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(module, HttpStatus.OK);
     }
 
@@ -43,7 +44,7 @@ public class ModuleController {
         Optional<Module> deleteObject = moduleService.getById(id);
         if (deleteObject.isPresent()) {
             moduleService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 }

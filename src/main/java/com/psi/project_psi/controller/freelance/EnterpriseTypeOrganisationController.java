@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.EnterpriseTypeOrganisation;
 import com.psi.project_psi.service.EnterpriseTypeOrganisationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class EnterpriseTypeOrganisationController {
     @GetMapping("/typeOrganisation/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<EnterpriseTypeOrganisation> typeOrganisation = typeOrganisationService.getById(id);
-        if (!typeOrganisation.isPresent()) return new ResponseEntity<>("Ce type d'organisation n'est pas présent", HttpStatus.BAD_REQUEST);
+        if (typeOrganisation.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(typeOrganisation, HttpStatus.OK);
     }
 
@@ -37,7 +38,7 @@ public class EnterpriseTypeOrganisationController {
         Optional<EnterpriseTypeOrganisation> deleteObject = typeOrganisationService.getById(id);
         if (deleteObject.isPresent()) {
             typeOrganisationService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 }

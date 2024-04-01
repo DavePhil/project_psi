@@ -1,5 +1,6 @@
 package com.psi.project_psi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
@@ -13,8 +14,11 @@ public class Admin {
     private Long id;
     @Column(unique = true)
     private String email;
-    private String name;
+    private String userName;
     private String password;
+    @Transient
+    @JsonIgnore
+    private UserFunction userFunction;
     private boolean isDelete = false;
 
 }

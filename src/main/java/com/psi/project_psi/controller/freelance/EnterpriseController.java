@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Enterprise;
 import com.psi.project_psi.models.EnterpriseTypeIndustry;
 import com.psi.project_psi.models.EnterpriseTypeOrganisation;
@@ -50,7 +51,7 @@ public class EnterpriseController {
                                     @RequestParam("typeOrganisation")EnterpriseTypeOrganisation typeOrganisation, @RequestParam("teamLength") Integer teamLength,
                                     @RequestParam("creationDate") String creationDate, @RequestParam("user")Users user) throws IOException {
         if (Utils.verifyImageExtension(logo) || Utils.verifyImageExtension(banniere)){
-            return new ResponseEntity<>("Nous n'acceptions que les images de type jpg, jpeg ou alors png", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("TYPE_IMAGE_NON_PRIS_EN_CHARGE", HttpStatus.BAD_REQUEST);
         }
         Enterprise enterprise = enterpriseService.createEntreprise(logo, banniere, name,description, facebookLink, instagramLink, linkedLink, twitterLink, contactNumber, email, localisation, siteWebLink, typeIndustry,
                 typeOrganisation,teamLength, creationDate, user );
@@ -63,14 +64,14 @@ public class EnterpriseController {
                                     @RequestParam("banniere") MultipartFile banniere, @RequestParam("name") String name,
                                     @RequestParam("description") String description) throws IOException {
         if (Utils.verifyImageExtension(logo) || Utils.verifyImageExtension(banniere)){
-            return new ResponseEntity<>("Nous n'acceptions que les images de type jpg, jpeg ou alors png", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("TYPE_IMAGE_NON_PRIS_EN_CHARGE", HttpStatus.BAD_REQUEST);
         }
         Enterprise enterprise = enterpriseService.createEnterprise(logo, banniere, name,description, user);
         return ResponseEntity.ok(enterprise);
     }
     @PutMapping("/enterprise/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody Enterprise enterprise){
-        if (!enterpriseService.getById(id).isPresent()) return new ResponseEntity<>("Entreprise absente", HttpStatus.BAD_REQUEST);
+        if (enterpriseService.getById(id).isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         Enterprise enterprise1 = enterpriseService.updateEnterprise(enterprise, id);
         return ResponseEntity.ok(enterprise1);
     }
@@ -79,7 +80,7 @@ public class EnterpriseController {
     @GetMapping("/enterprise/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id ){
         Optional<Enterprise> enterprise = enterpriseService.getById(id);
-        if (!enterprise.isPresent()) return new ResponseEntity<>("Cette Entreprise n'existe pas", HttpStatus.OK);
+        if (enterprise.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(enterprise, HttpStatus.OK);
     }
 
@@ -93,14 +94,14 @@ public class EnterpriseController {
         Optional<Enterprise> deleteObject = enterpriseService.getById(id);
         if (deleteObject.isPresent()) {
             enterpriseService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/entrepriseByUser/{idUser}")
     public ResponseEntity<?> getByIdUser(@PathVariable("idUser") Long idUser){
         List<Enterprise> enterprises = enterpriseService.entrepriseListByUser(idUser);
-        if (enterprises.isEmpty()) return new ResponseEntity<>("Aucune entreprise pour cette utilisateur", HttpStatus.OK);
+        if (enterprises.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(enterprises, HttpStatus.OK);
     }
 }

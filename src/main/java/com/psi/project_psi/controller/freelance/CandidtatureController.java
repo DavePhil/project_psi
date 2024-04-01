@@ -1,6 +1,7 @@
 package com.psi.project_psi.controller.freelance;
 
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.BankAccount;
 import com.psi.project_psi.models.Candidature;
 
@@ -28,7 +29,7 @@ public class CandidtatureController {
     @GetMapping("/candidature/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<Candidature> candidature = candidatureService.getById(id);
-        if (!candidature.isPresent()) return new ResponseEntity<>("Cette candidature n'est pas présente", HttpStatus.BAD_REQUEST);
+        if (!candidature.isPresent()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(candidature, HttpStatus.OK);
     }
 
@@ -42,23 +43,23 @@ public class CandidtatureController {
         Optional<Candidature> deleteObject = candidatureService.getById(id);
         if (deleteObject.isPresent()) {
             candidatureService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/validercandidature/{id}")
     public ResponseEntity<?> validerCandidature(@PathVariable("id") Long id){
-        return candidatureService.changeState(State.Valide,id);
+        return candidatureService.changeState(State.Valide,id,"CANDIDATURE_VALIDE");
     }
 
     @PutMapping("/rejetercandidature/{id}")
     public ResponseEntity<?> RejeterCandidature(@PathVariable("id") Long id){
-        return candidatureService.changeState(State.Rejette,id);
+        return candidatureService.changeState(State.Rejette,id,"CANDIDATURE_REJETE");
     }
 
     @PutMapping("/annulercandidature/{id}")
     public ResponseEntity<?> AnnuleCandidature(@PathVariable("id") Long id){
-        return candidatureService.changeState(State.Annule,id);
+        return candidatureService.changeState(State.Annule,id,"CANDIDATURE_ANNULE");
     }
 
     @GetMapping("/candidatureByState/{state}")

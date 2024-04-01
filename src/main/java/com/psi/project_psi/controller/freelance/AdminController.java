@@ -1,8 +1,12 @@
 package com.psi.project_psi.controller.freelance;
 
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Admin;
+import com.psi.project_psi.models.Role;
+import com.psi.project_psi.models.Users;
 import com.psi.project_psi.service.AdminService;
+import com.psi.project_psi.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +63,7 @@ public class AdminController {
         else if (!adminService.verifyPassword(password, adminSave.get().getPassword())) return new ResponseEntity<>("Identifiant ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
         else return new ResponseEntity<>(adminSave, HttpStatus.OK);
     }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.spaceMarket;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Categorie;
 import com.psi.project_psi.service.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class CategorieController {
     @GetMapping("/categorie/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<Categorie> categorie = categorieService.getById(id);
-        if (!categorie.isPresent()) return new ResponseEntity<>("Ce Pays n'existe pas", HttpStatus.OK);
+        if (categorie.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(categorie, HttpStatus.OK);
     }
 
@@ -36,7 +37,7 @@ public class CategorieController {
         Optional<Categorie> deleteObject = categorieService.getById(id);
         if (deleteObject.isPresent()) {
             categorieService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 }

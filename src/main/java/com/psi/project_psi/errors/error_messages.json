@@ -1,0 +1,78 @@
+{
+  "USER_ALREADY_EXISTS": {
+    "en": "This user already exists",
+    "fr": "Cette utilisateur existe déjà"
+  },
+  "INVALID_CREDENTIALS": {
+    "en": "Incorrect login or password",
+    "fr": "Identifiant ou mot de passe incorrect"
+  },
+  "RESSOURCE_INTROUVABLE": {
+    "en": "The requested resource cannot be found",
+    "fr": "La ressource demandée est introuvable"
+  },
+  "TYPE_IMAGE_NON_PRIS_EN_CHARGE": {
+    "en": "File type not supported. We only accept JPEG, JPG or PNG images",
+    "fr": "Type du fichier non pris en charge. Nous n'acceptions que les images de type JPEG, JPG ou alors PNG"
+  },
+  "TYPE_CV_NON_PRIS_EN_CHARGE": {
+    "en": "File type not supported. We only accept a PDF version of your CV",
+    "fr": "Type du fichier non pris en charge. Nous n'acceptons qu'une version PDF de votre CV"
+  },
+  "USER_ALREADY_HAVE_A_PROFILE": {
+    "en": "This user already has a Profile",
+    "fr": "Cette utilisateur a déjà un Profile"
+  },
+  "CANDIDATURE_VALIDE": {
+    "en": "Candidature validée avec succès",
+    "fr": "Successfully validated application"
+  },
+  "CANDIDATURE_REJETE": {
+    "en": "Application successfully rejected",
+    "fr": "Candidature rejetée avec succès"
+  },
+  "PROFILE_VALIDE": {
+    "en": "profil validé avec succès",
+    "fr": "Successfully validated profile"
+  },
+  "PROFILE_REJETE": {
+    "en": "Profile successfully rejected",
+    "fr": "Profil rejeté avec succès"
+  },
+  "CANDIDATURE_ANNULE": {
+    "en": "Application successfully cancelled",
+    "fr": "Candidature annulée avec succès"
+  },
+  "COMMANDE_VALIDE": {
+    "en": "Order successfully confirmed",
+    "fr": "Commande validée avec succès"
+  },
+  "COMMANDE_REJETE": {
+    "en": "Order successfully rejected",
+    "fr": "Commande rejetée avec succès"
+  },
+  "COMMANDE_ANNULE": {
+    "en": "Order successfully cancelled",
+    "fr": "Commande annulée avec succès"
+  },
+  "ARTICLE_VALIDE": {
+    "en": "Article successfully validated",
+    "fr": "Article validée avec succès"
+  },
+  "ARTICLE_REJETE": {
+    "en": "Article successfully rejected",
+    "fr": "Article rejetée avec succès"
+  },
+  "ARTICLE_ANNULE": {
+    "en": "Article successfully cancelled",
+    "fr": "Article annulée avec succès"
+  },
+  "ERREUR_TRAITEMENT_CANDIDATURE": {
+    "en": "Error while processing application",
+    "fr": "Erreur lors du traitement de la candidature"
+  },
+  "DELETE_SUCCESSFULLY": {
+    "en": "Deletion successfully completed",
+    "fr": "Suppression effectuée avec succès"
+  }
+}

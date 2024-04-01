@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.BankAccount;
 
 import com.psi.project_psi.service.BankAccountService;
@@ -24,7 +25,7 @@ public class BankAccountController {
     @GetMapping("/bankaccount/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<BankAccount> bankAccount = bankAccountService.getById(id);
-        if (!bankAccount.isPresent()) return new ResponseEntity<>("Ce module n'est pas présent", HttpStatus.BAD_REQUEST);
+        if (bankAccount.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(bankAccount, HttpStatus.OK);
     }
 
@@ -38,8 +39,8 @@ public class BankAccountController {
         Optional<BankAccount> deleteObject = bankAccountService.getById(id);
         if (deleteObject.isPresent()) {
             bankAccountService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 
 }

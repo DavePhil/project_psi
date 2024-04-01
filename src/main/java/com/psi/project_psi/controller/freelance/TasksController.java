@@ -1,6 +1,7 @@
 package com.psi.project_psi.controller.freelance;
 
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Tasks;
 import com.psi.project_psi.service.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class TasksController {
     @GetMapping("/tasks/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<Tasks> competences = tasksService.getById(id);
-        if (!competences.isPresent()) return new ResponseEntity<>("Cette compétence n'est pas présente", HttpStatus.BAD_REQUEST);
+        if (competences.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(competences, HttpStatus.OK);
     }
 
@@ -43,7 +44,7 @@ public class TasksController {
         Optional<Tasks> deleteObject = tasksService.getById(id);
         if (deleteObject.isPresent()) {
             tasksService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 }

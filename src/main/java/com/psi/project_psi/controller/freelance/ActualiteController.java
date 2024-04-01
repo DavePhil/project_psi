@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Actualite;
 import com.psi.project_psi.models.Admin;
 import com.psi.project_psi.service.ActualiteService;
@@ -27,7 +28,7 @@ public class ActualiteController {
     @GetMapping("/actualite/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
         Optional<Actualite> newsLetters = actualiteService.getById(id);
-        if (!newsLetters.isPresent()) return new ResponseEntity<>("Cette newsLetter n'existe pas", HttpStatus.OK);
+        if (newsLetters.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(newsLetters, HttpStatus.OK);
     }
 
@@ -41,7 +42,7 @@ public class ActualiteController {
         Optional<Actualite> deleteObject = actualiteService.getById(id);
         if (deleteObject.isPresent()) {
             actualiteService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 }

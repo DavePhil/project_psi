@@ -1,5 +1,6 @@
 package com.psi.project_psi.controller.freelance;
 
+import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.*;
 import com.psi.project_psi.service.ProfileService;
 import com.psi.project_psi.service.UserService;
@@ -48,10 +49,10 @@ public class ProfileController {
                                     @RequestParam(value = "linkedIn", required = false) String linkedIn,
                                     @RequestParam("domain")Domain domain) throws IOException {
         if (Utils.verifyImageExtension(photo)){
-            return new ResponseEntity<>("Nous n'acceptions que les images de type jpeg ou alors png", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("TYPE_IMAGE_NON_PRIS_EN_CHARGE", HttpStatus.BAD_REQUEST);
         }
-        if (Utils.verifyFileExtensionType(cv)) return new ResponseEntity<>("Nous n'acceptons qu'une version pdf de votre CV", HttpStatus.BAD_REQUEST);
-        if (profileService.findByUser(users.getId()).isPresent()) return new ResponseEntity<>("Cette utilisateur a déjà un Profile", HttpStatus.BAD_REQUEST);
+        if (Utils.verifyFileExtensionType(cv)) return  CustomResponseEntity.fromKey("TYPE_CV_NON_PRIS_EN_CHARGE", HttpStatus.BAD_REQUEST);
+        if (profileService.findByUser(users.getId()).isPresent()) return CustomResponseEntity.fromKey("USER_ALREADY_HAVE_A_PROFILE", HttpStatus.BAD_REQUEST);
         Profile profile = profileService.create(description, cv, photo, users, competences, domain, linkedIn);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
@@ -59,7 +60,7 @@ public class ProfileController {
     @GetMapping("/profile/{id}")
     public ResponseEntity<?> getById(@PathVariable("id")Long id){
         Optional<Profile> profile = profileService.getById(id);
-        if (!profile.isPresent()) return new ResponseEntity<>("Ce profile n'est pas présent", HttpStatus.BAD_REQUEST);
+        if (profile.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 
@@ -73,8 +74,8 @@ public class ProfileController {
         Optional<Profile> deleteObject = profileService.getById(id);
         if (deleteObject.isPresent()) {
             profileService.delete(deleteObject.get());
-            return new ResponseEntity<>("Deleted successfully", HttpStatus.OK);
-        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/profilebydomain/{idDomain}")
@@ -84,16 +85,16 @@ public class ProfileController {
     @PutMapping("/profile/valide/{id}")
     public ResponseEntity<?> valide(@PathVariable("id") Long id){
         Optional<Profile> profile = profileService.getById(id);
-        if (profile.isPresent()) return new ResponseEntity<>("Ce profil n'existe pas", HttpStatus.BAD_REQUEST);
+        if (profile.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         profileService.modifyState(State.Valide,id);
-        return new ResponseEntity<>("profil validé", HttpStatus.OK);
+        return CustomResponseEntity.fromKey("PROFILE_VALIDE", HttpStatus.OK);
     }
     @PutMapping("/profile/rejette/{id}")
     public ResponseEntity<?> rejette(@PathVariable("id") Long id){
         Optional<Profile> profile = profileService.getById(id);
-        if (profile.isPresent()) return new ResponseEntity<>("Cet profile n'existe pas", HttpStatus.BAD_REQUEST);
+        if (profile.isEmpty()) return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
         profileService.modifyState(State.Valide,id);
-        return new ResponseEntity<>("profil rejeté", HttpStatus.OK);
+        return  CustomResponseEntity.fromKey("PROFILE_REJETE", HttpStatus.OK);
     }
 
 
