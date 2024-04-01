@@ -40,8 +40,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-#      - name: Create SSH key file
-#        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
       - name: install ssh keys
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
@@ -54,7 +52,3 @@ jobs:
           ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
           ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
           ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
-        env:
-          SERVER_USERNAME: ${{ secrets.WINDOWS_SERVER_USERNAME }}
-          SERVER_HOST: ${{ secrets.WINDOWS_SERVER_HOST }}
-          SERVER_PASSWORD: ${{ secrets.WINDOWS_SERVER_PASSWORD }}
