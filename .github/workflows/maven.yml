@@ -39,6 +39,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: SSH setup
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Create SSH key file
         run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
       - name: Deploy to Server
