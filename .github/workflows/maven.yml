@@ -38,6 +38,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Create SSH key file
         run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
