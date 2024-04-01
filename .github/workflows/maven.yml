@@ -41,14 +41,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: install ssh keys
-        run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.WINDOWS_SERVER_HOST }} > ~/.ssh/known_hosts
-      - name: Deploy to Server
-        run: |
-          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
-          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
-          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
-          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
-          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.WINDOWS_SERVER_HOST }}
+          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
+          password: ${{ secrets.WINDOWS_SERVER_PASSWORD }}
+          port: ${{ secrets.WINDOWS_SERVER_PORT }}
+          script:
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+           docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest
+#      - name: Deploy to Server
+#        run: |
+#          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
+#          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
+#          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
+#          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
+#          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
