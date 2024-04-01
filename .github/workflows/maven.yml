@@ -52,3 +52,6 @@ jobs:
           ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
           ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
           ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 davechedjoun/psi-backend:latest'
+        env:
+          SERVER_USERNAME: ${{ secrets.WINDOWS_SERVER_USERNAME }}
+          SERVER_HOST: ${{ secrets.WINDOWS_SERVER_HOST }}
