@@ -95,6 +95,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>psi-backend</finalName>
     </build>
 
 </project>
