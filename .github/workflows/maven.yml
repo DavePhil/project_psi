@@ -52,7 +52,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Run PowerShell script on Windows Server
-        uses: appleboy/ssh-action@v2
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.WINDOWS_SERVER_HOST }}
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
