@@ -40,11 +40,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Create SSH key file
-        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
+#      - name: Create SSH key file
+#        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
+      - name: install ssh keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.WINDOWS_SERVER_HOST }} > ~/.ssh/known_hosts
       - name: Deploy to Server
         run: |
-          ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
+          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
           ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull davechedjoun/psi-backend:latest'
           ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
           ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
