@@ -22,10 +22,7 @@ jobs:
     steps:
     - name: 'Create env file'
       run: |
-        touch .env
-        echo DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} >> .env
-        echo DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
-        echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env
+        echo "${{secrets.WEBSITE_ENV_STAGE }}" > .env
         cat .env
     - uses: actions/checkout@v3
     - name: Set up JDK 17
