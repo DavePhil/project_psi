@@ -39,7 +39,6 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: SSH setup
         uses: webfactory/ssh-agent@v0.5.3
