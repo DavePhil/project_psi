@@ -46,10 +46,11 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy to Server
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull davechedjoun/psi-backend:latest'
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 davechedjoun/psi-backend:latest'
+          echo ${{ secrets.SSH_PRIVATE_KEY }} > rsa
+          ssh -i rsa -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull davechedjoun/psi-backend:latest'
+          ssh -i rsa -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
+          ssh -i rsa -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
+          ssh -i rsa -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 davechedjoun/psi-backend:latest'
         env:
           SERVER_USERNAME: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           SERVER_HOST: ${{ secrets.WINDOWS_SERVER_HOST }}
