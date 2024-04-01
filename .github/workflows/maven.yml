@@ -47,9 +47,12 @@ jobs:
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           password: ${{ secrets.WINDOWS_SERVER_PASSWORD }}
           port: ${{ secrets.WINDOWS_SERVER_PORT }}
-          script:
+          script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest
+            docker stop psi-backend || true
+            docker rm psi-backend || true
+            docker run -d --name psi-backend -p 4000:4000 ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest
 #      - name: Deploy to Server
 #        run: |
 #          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
