@@ -30,7 +30,7 @@ jobs:
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: davechedjoun/psi-backend
+          image: ${{ secrets.DOCKER_USERNAME }}/psi-backend
           tags: latest
           registry: docker.io
           dockerfile: Dockerfile
@@ -50,10 +50,10 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
-          ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull davechedjoun/psi-backend:latest'
-          ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
-          ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
-          ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 davechedjoun/psi-backend:latest'
+          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
+          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
+          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
+          ssh ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
         env:
           SERVER_USERNAME: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           SERVER_HOST: ${{ secrets.WINDOWS_SERVER_HOST }}
