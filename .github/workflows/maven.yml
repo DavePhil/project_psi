@@ -36,15 +36,14 @@ jobs:
 #          password: ${{ secrets.DOCKER_PASSWORD }}
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     steps:
       - name: Create SSH key file
         run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
       - name: Deploy to Server
         run: |
-          scp psi-backend.jar ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
-#          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
+          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} scp -i ssh_key -o StrictHostKeyChecking=no psi-backend.jar ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}'
 #          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
 #          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
 #          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
