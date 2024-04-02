@@ -46,8 +46,8 @@ jobs:
           ls
       - name: Deploy to Server
         run: |
-         scp -i ssh_key target/psi-back.jar ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
-         scp -i ssh_key env_file ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
+         scp -i ssh_key -o StrictHostKeyChecking=no target/psi-back.jar ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
+         scp -i ssh_key -o StrictHostKeyChecking=no env_file ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
 #          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'mklink psi-backend.jar C:\Users\Administrator\Desktop\project\psi-backend\psi-backend.jar'
 #                    sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'java -jar psi-backend'
   #      - name: Build & push Docker image
