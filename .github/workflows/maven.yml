@@ -27,27 +27,27 @@ jobs:
         run: mvn -Dmaven.test.skip=true -B package --file pom.xml
       - name: Rename Jar
         run: mv target/*.jar target/psi-back.jar
-#      - name: Copy file
-#        uses: appleboy/scp-action@v0.1.7
-#        with:
-#          host: ${{ secrets.WINDOWS_SERVER_HOST }}
-#          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
-#          key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          source: "target/psi-back.jar"
-#          target: C:\Users\Administrator\Desktop\project\psi-backend
-      - name: Create SSH key file
-        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
-      - name: Create env file
-        run: echo "${{ secrets.ENV_FILE }}" > env_file
-      - name: Display workspace contents
-        run: |
-          cd target
-          ls
-      - name: Deploy to Server
-        run: |
-         chmod 600 ssh_key
-         scp -i ssh_key -o StrictHostKeyChecking=no "target/psi-back.jar" ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
-         scp -i ssh_key -o StrictHostKeyChecking=no env_file ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
+      - name: Copy file
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.WINDOWS_SERVER_HOST }}
+          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "./target/psi-back.jar"
+          target: C:\Users\Administrator\Desktop\project\psi-backend
+#      - name: Create SSH key file
+#        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
+#      - name: Create env file
+#        run: echo "${{ secrets.ENV_FILE }}" > env_file
+#      - name: Display workspace contents
+#        run: |
+#          cd target
+#          ls
+#      - name: Deploy to Server
+#        run: |
+#         chmod 600 ssh_key
+#         scp -i ssh_key -o StrictHostKeyChecking=no "target/psi-back.jar" ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
+#         scp -i ssh_key -o StrictHostKeyChecking=no env_file ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
 #          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'mklink psi-backend.jar C:\Users\Administrator\Desktop\project\psi-backend\psi-backend.jar'
 #                    sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'java -jar psi-backend'
   #      - name: Build & push Docker image
