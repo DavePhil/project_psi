@@ -31,10 +31,12 @@ jobs:
         run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
       - name: Create env file
         run: echo "${{ secrets.ENV_FILE }}" > env_file
+      - name: Display workspace contents
+        run: ls -la
       - name: Deploy to Server
         run: |
-          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} scp -i ssh_key -o StrictHostKeyChecking=no target/psi-back.jar ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
-          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} scp -i ssh_key -o StrictHostKeyChecking=no env_file ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
+          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} scp -i ssh_key -o StrictHostKeyChecking=no target/psi-back.jar ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:~/Desktop/project/psi-backend
+          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} scp -i ssh_key -o StrictHostKeyChecking=no env_file ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:~/Desktop/project/psi-backend
   #      - name: Build & push Docker image
 #        uses: mr-smithers-excellent/docker-build-push@v5
 #        with:
