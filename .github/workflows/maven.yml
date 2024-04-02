@@ -24,9 +24,9 @@ jobs:
           distribution: 'adopt'
           cache: maven
       - name: Create env file
-        run: echo "${{ secrets.ENV_FILE }}" > .env
-      - name: Display workspace contents
-        run: ls
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+          cp .env src/
       - name: Build with Maven
         run: mvn -Dmaven.test.skip=true -B package --file pom.xml
       - name: Copy JAR file
