@@ -10,7 +10,7 @@ public class EnvironmentFile {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer configurer = new PropertySourcesPlaceholderConfigurer();
-        configurer.setLocation(new FileSystemResource("src/.env"));
+        configurer.setLocation(new FileSystemResource(".env"));
         return configurer;
     }
 }
