@@ -37,15 +37,15 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "./target/psi-backend.jar"
           target: C:\Users\Administrator\Desktop\project\psi-backend
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          script: |
-            ln -sf C:\Users\Administrator\Desktop\project\psi-backend  /etc/init.d/sa
-            service start sa
+#      - name: executing remote ssh commands using password
+#        uses: appleboy/ssh-action@v1.0.3
+#        with:
+#          host: ${{ secrets.HOST }}
+#          username: ${{ secrets.USERNAME }}
+#          password: ${{ secrets.PASSWORD }}
+#          script: |
+#            ln -sf C:\Users\Administrator\Desktop\project\psi-backend  /etc/init.d/sa
+#            service start sa
 #      - name: Create SSH key file
 #        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
 #      - name: Create env file
