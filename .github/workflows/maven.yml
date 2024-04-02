@@ -1,11 +1,3 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Java CI with Maven
 
 on:
@@ -36,20 +28,30 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "./target/psi-backend.jar"
           target: C:\Users\Administrator\Desktop\project\project_psi
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.WINDOWS_SERVER_HOST }}
-          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd C:\Users\Administrator\Desktop\project\project_psi
-            $process = Get-Process java -ErrorAction SilentlyContinue
-            if ($process) {
-             Stop-Process -Name java
-            }
-            New-Item -ItemType SymbolicLink -Path symbolicLinkPsiExec -Target target/psi-backend.jar
-            Start-Process java -ArgumentList "-jar symbolicLinkPsiExec"
+
+
+
+
+
+
+#      - name: executing remote ssh commands using password
+#        uses: appleboy/ssh-action@v1.0.3
+#        with:
+#          host: ${{ secrets.WINDOWS_SERVER_HOST }}
+#          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          script: |
+#            cd C:\Users\Administrator\Desktop\project\project_psi
+#            $process = Get-Process java -ErrorAction SilentlyContinue
+#            if ($process) {
+#             Stop-Process -Name java
+#            }
+#            New-Item -ItemType SymbolicLink -Path symbolicLinkPsiExec -Target target/psi-backend.jar
+#            Start-Process java -ArgumentList "-jar symbolicLinkPsiExec"
+            
+            
+            
+
 #      - name: Create SSH key file
 #        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
 #      - name: Create env file
