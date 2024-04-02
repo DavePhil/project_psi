@@ -23,18 +23,31 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: maven
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > env_file
+          cp env_file $GITHUB_WORKSPACE/env_file
+      - name: Display workspace contents
+        run: ls
       - name: Build with Maven
         run: mvn -Dmaven.test.skip=true -B package --file pom.xml
-      - name: Rename Jar
-        run: mv target/*.jar target/psi-back.jar
-      - name: Copy file
+      - name: Copy JAR file
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.WINDOWS_SERVER_HOST }}
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "./target/psi-back.jar"
+          source: "./target/psi-backend.jar"
           target: C:\Users\Administrator\Desktop\project\psi-backend
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            ln -sf C:\Users\Administrator\Desktop\project\psi-backend  /etc/init.d/sa
+            service start sa
 #      - name: Create SSH key file
 #        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
 #      - name: Create env file
