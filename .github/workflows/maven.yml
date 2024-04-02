@@ -29,7 +29,7 @@ jobs:
         run: mv target/*.jar target/psi-back.jar
 
       - name: Copy file
-        uses: appleboy/scp-action@v1.0.4
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.WINDOWS_SERVER_HOST }}
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
