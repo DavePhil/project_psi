@@ -43,9 +43,14 @@ jobs:
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd C:\Users\Administrator\Desktop\project\project_psi 
-            New-Item -ItemType SymbolicLink -Path symbolicLinkPsiExec -Target target/psi-backend.jar
-            java -jar symbolicLinkPsiExec
+            # Se connecter au répertoire du projet
+            cd C:\Users\Administrator\Desktop\project\project_psi
+           $process = Get-Process java -ErrorAction SilentlyContinue
+           if ($process) {
+            Stop-Process -Name java
+           }
+           New-Item -ItemType SymbolicLink -Path symbolicLinkPsiExec -Target target/psi-backend.jar
+            Start-Process java -ArgumentList "-jar symbolicLinkPsiExec"
 #      - name: Create SSH key file
 #        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
 #      - name: Create env file
