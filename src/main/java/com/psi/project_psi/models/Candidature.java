@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class Candidature {
+public class Candidature extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,6 @@ public class Candidature {
     private Module module;
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Profile profile;
-    private boolean isDelete = false;
+
 
 }

@@ -10,10 +10,9 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 @Entity
 @Data
-public class NewsLetterSouscription {
+public class NewsLetterSouscription extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
-    private Boolean isDelete = false;
 }

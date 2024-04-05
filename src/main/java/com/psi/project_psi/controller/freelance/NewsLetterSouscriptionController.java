@@ -2,6 +2,7 @@ package com.psi.project_psi.controller.freelance;
 
 import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.NewsLetterSouscription;
+import com.psi.project_psi.models.Pays;
 import com.psi.project_psi.models.Ville;
 import com.psi.project_psi.service.NewsLetterSouscriptionService;
 import com.psi.project_psi.service.VilleService;
@@ -40,7 +41,10 @@ public class NewsLetterSouscriptionController {
 
     @DeleteMapping("/souscription/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
-        souscriptionService.deleteById(id);
-        return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        Optional<NewsLetterSouscription> deleteObject = souscriptionService.getById(id);
+        if (deleteObject.isPresent()) {
+            souscriptionService.delete(deleteObject.get());
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

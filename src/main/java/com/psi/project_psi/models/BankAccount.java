@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class BankAccount {
+public class BankAccount extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,5 +16,5 @@ public class BankAccount {
     // Paramètre d'un compte bancaire
     @ManyToOne
     private Users user;
-    private boolean isDelete = false;
+
 }

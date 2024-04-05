@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @Entity
-public class Ville {
+public class Ville extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,6 +15,5 @@ public class Ville {
     private String name;
     @ManyToOne
     private Pays pays;
-    private boolean isDelete = false;
 
 }

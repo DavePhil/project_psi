@@ -9,6 +9,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +32,11 @@ public class NewsLetterSouscriptionService {
         return newsLetterSouscriptionRepository.findById(id);
     }
 
-    public void deleteById(Long id){
-        newsLetterSouscriptionRepository.deleteById(id);
+
+
+    public void delete(NewsLetterSouscription deleteObject) {
+        deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
+        newsLetterSouscriptionRepository.save(deleteObject);
     }
-
-
 }

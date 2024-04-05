@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Data
@@ -39,6 +40,7 @@ public class AdminService {
 
     public void delete (Admin admin){
         admin.setDelete(true);
+        admin.setDeleteAt(new Date());
         adminRepository.save(admin);
     }
 

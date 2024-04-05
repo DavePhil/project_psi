@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @Entity
 @DynamicUpdate
-public class Users implements UserDetails {
+public class Users extends BaseEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +30,7 @@ public class Users implements UserDetails {
     @OneToOne(mappedBy = "users")
     private Profile profile;
     // Rajouter la contrainte d'intégrité qui supprime tous les bankAccounts si l'utilisateur est supprimé
-    private boolean isDelete = false;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

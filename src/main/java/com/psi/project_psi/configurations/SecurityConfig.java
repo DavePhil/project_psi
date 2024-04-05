@@ -31,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
          httpSecurity
                 .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(ar -> ar.requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll())
+//                .authorizeHttpRequests(ar -> ar.requestMatchers("/auth/**", "/swagger-ui/**", "/actuator/shutdown", "/v3/api-docs/**").permitAll())
 //                .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oa -> oa.jwt(Customizer.withDefaults()))
@@ -39,13 +39,11 @@ public class SecurityConfig {
 //                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
         return httpSecurity.build();
     }
-
     @Bean
     JwtDecoder jwtDecoder(){
         SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "RSA");
         return NimbusJwtDecoder.withSecretKey(secretKeySpec).macAlgorithm(MacAlgorithm.HS256).build();
     }
-
     @Bean
     JwtEncoder jwtEncoder(){
         return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey.getBytes()));

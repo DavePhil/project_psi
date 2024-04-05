@@ -29,64 +29,25 @@ jobs:
           source: "./target/psi-backend.jar"
           target: C:\Users\Administrator\Desktop\project\project_psi
 
-
-
-
-
-
-#      - name: executing remote ssh commands using password
-#        uses: appleboy/ssh-action@v1.0.3
-#        with:
-#          host: ${{ secrets.WINDOWS_SERVER_HOST }}
-#          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
-#          key: ${{ secrets.SSH_PRIVATE_KEY }}
-#          script: |
-#            cd C:\Users\Administrator\Desktop\project\project_psi
-#            $process = Get-Process java -ErrorAction SilentlyContinue
-#            if ($process) {
-#             Stop-Process -Name java
-#            }
-#            New-Item -ItemType SymbolicLink -Path symbolicLinkPsiExec -Target target/psi-backend.jar
-#            Start-Process java -ArgumentList "-jar symbolicLinkPsiExec"
+      - name: executing project
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.WINDOWS_SERVER_HOST }}
+          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd C:\Users\Administrator\Desktop\project\project_psi
+            try {
+              Invoke-WebRequest -Uri "http://localhost:4000/actuator/shutdown" -Method Post -ContentType "application/json" -Body "{}" -ErrorAction Stop
+              Write-Output "L'application Spring Boot a été arrêtée avec succès."
+            } catch {
+              Write-Output "Erreur lors de l'arrêt de l'application Spring Boot : $_"
+            }
+            ./exec.bat
+            
             
             
             
 
-#      - name: Create SSH key file
-#        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
-#      - name: Create env file
-#        run: echo "${{ secrets.ENV_FILE }}" > env_file
-#      - name: Display workspace contents
-#        run: |
-#          cd target
-#          ls
-#      - name: Deploy to Server
-#        run: |
-#         chmod 600 ssh_key
-#         scp -i ssh_key -o StrictHostKeyChecking=no "target/psi-back.jar" ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
-#         scp -i ssh_key -o StrictHostKeyChecking=no env_file ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:C:\Users\Administrator\Desktop\project\psi-backend
-#          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'mklink psi-backend.jar C:\Users\Administrator\Desktop\project\psi-backend\psi-backend.jar'
-#                    sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'java -jar psi-backend'
-  #      - name: Build & push Docker image
-#        uses: mr-smithers-excellent/docker-build-push@v5
-#        with:
-#          image: ${{ secrets.DOCKER_USERNAME }}/psi-backend
-#          tags: latest
-#          registry: docker.io
-#          dockerfile: Dockerfile
-#          username: ${{ secrets.DOCKER_USERNAME }}
-#          password: ${{ secrets.DOCKER_PASSWORD }}
 
-#  deploy:
-#    runs-on: ubuntu-latest
-#    needs: build
-#    steps:
-#      - name: Create SSH key file
-#        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" > ssh_key
-#      - name: Deploy to Server
-#        run: |
-#          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} scp -i ssh_key -o StrictHostKeyChecking=no target/psi-back.jar ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }}:/C/Users/Administrator/Desktop/project/psi-backend
-#          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker pull ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
-#          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker stop psi-backend || true'
-#          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker rm psi-backend || true'
-#          sshpass -p ${{ secrets.WINDOWS_SERVER_PASSWORD }} ssh -i ssh_key -o StrictHostKeyChecking=no ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} 'docker run -d --name psi-backend -p 4000:4000 ${{ secrets.DOCKER_USERNAME }}/psi-backend:latest'
+

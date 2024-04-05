@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class Enterprise {
+public class Enterprise extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +32,5 @@ public class Enterprise {
     private String creationDate;
     @ManyToOne
     private Users users;
-    private boolean isDelete = false;
+
 }

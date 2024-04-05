@@ -10,10 +10,9 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class EnterpriseTypeIndustry {
+public class EnterpriseTypeIndustry extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private boolean isDelete = false;
 }

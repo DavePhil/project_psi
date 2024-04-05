@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +52,7 @@ public class ActualiteService {
 
     public void delete (Actualite deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         newsLetterRepository.save(deleteObject);
     }
 

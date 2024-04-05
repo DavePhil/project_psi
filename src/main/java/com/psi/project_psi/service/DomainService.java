@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Data
@@ -34,6 +35,7 @@ public class DomainService {
 
     public void delete (Domain deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         domainRepository.save(deleteObject);
     }
 }

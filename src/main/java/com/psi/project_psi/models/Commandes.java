@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class Commandes {
+public class Commandes extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,5 +16,5 @@ public class Commandes {
     @ManyToOne
     private Article article;
     private State state = State.EnAttente; // en attente que le vendeur confirme
-    private boolean isDelete = false;
+
 }

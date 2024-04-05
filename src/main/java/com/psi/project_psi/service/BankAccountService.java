@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Data
@@ -28,6 +29,7 @@ public class BankAccountService {
 
     public void delete (BankAccount deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         bankAccountRepository.save(deleteObject);
     }
 }

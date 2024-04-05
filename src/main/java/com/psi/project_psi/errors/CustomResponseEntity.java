@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CustomResponseEntity<T> extends ResponseEntity<T> {
 
-    private static final String ERROR_MESSAGES_FILE = "src/main/java/com/psi/project_psi/errors/error_messages.json";
+    private static final String ERROR_MESSAGES_FILE = "./error_messages.json";
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private static final Map<String, Map<String, String>> errorMessages;
 

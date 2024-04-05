@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,7 @@ public class CandidatureService {
 
     public void delete (Candidature deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         candidatureRepository.save(deleteObject);
     }
     public ResponseEntity<?> changeState(State state, Long id,String message){

@@ -26,6 +26,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     int modifyState(State articleState, Long id);
     @Query("select articles from Article articles where articles.categorie.id=:idCategorie and articles.users.id=:idUser and articles.isDelete=false")
     List<Article> findArticleByCategorieAndUsers(@Param("idCategorie") Long idCategorie,@Param("idUser") Long idUser);
+    @Query("select articles from Article articles where articles.categorie.id=:idCategorie and articles.state=1")
+    List<Article> findValidateArticleByCategorie(@Param("idCategorie") Long idCategorie);
     List<Article> findArticleByStateAndIsDeleteIsFalse(State state);
     @Query("select commandes.article.nom, count(*) as nbVentes from Commandes commandes where commandes.isDelete=false and commandes.state=1" +
             " group by commandes.article.id order by nbVentes desc limit 10")
@@ -34,6 +36,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("select commandes.article, count(*) as nbVentes from Commandes commandes where commandes.isDelete=false and commandes.article.id =:idCategorie and commandes.state=1" +
             " group by commandes.article.categorie.id order by nbVentes desc limit 10")
     List<Article> ArticlesPlusVendusParCategorie(Long idCategorie);
+
+
 
 
 }

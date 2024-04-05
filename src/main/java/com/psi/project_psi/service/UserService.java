@@ -47,7 +47,7 @@ public class UserService {
     }
 
     public ResponseEntity<?> authenticate(Optional<Users> user, String password){
-        if (!user.isPresent())  return CustomResponseEntity.fromKey("INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST);
+        if (user.isEmpty())  return CustomResponseEntity.fromKey("INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST);
         else if (!verifyPassword(password, user.get().getPassword()))  return CustomResponseEntity.fromKey("INVALID_CREDENTIALS", HttpStatus.BAD_REQUEST);
         var jwtToken = jwtService.generateToken(user.get());
         AuthentificationResponse response = AuthentificationResponse.builder()

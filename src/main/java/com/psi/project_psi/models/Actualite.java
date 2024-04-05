@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @Entity
 @DynamicUpdate
-public class Actualite {
+public class Actualite extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,7 +19,6 @@ public class Actualite {
     private String description;
     private String image;
     private Date dateCreation = new Date();
-    private boolean isDelete = false;
     @ManyToOne
     private Admin admin;
 

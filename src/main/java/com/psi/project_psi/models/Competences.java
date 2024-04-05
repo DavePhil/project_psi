@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class Competences {
+public class Competences extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,5 +15,5 @@ public class Competences {
     private String name;
     @ManyToOne
     private Domain domain;
-    private boolean isDelete = false;
+
 }

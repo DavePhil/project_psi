@@ -6,6 +6,7 @@ import com.psi.project_psi.models.EnterpriseTypeOrganisation;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.repository.EnterpriseRepository;
 import com.psi.project_psi.utils.Utils;
+import com.psi.project_psi.utils.file.FileStorageImpl;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -19,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,8 @@ public class EnterpriseService {
 
     @Autowired
     private EnterpriseRepository entrepriseRepository;
+    @Autowired
+    FileStorageImpl fileStorage;
 
     public Enterprise create(Enterprise enterprise){
         return entrepriseRepository.save(enterprise);
@@ -51,8 +55,8 @@ public class EnterpriseService {
                                         String localisation, String siteWebLink, EnterpriseTypeIndustry typeIndustry, EnterpriseTypeOrganisation typeOrganisation,
                                         Integer teamLength, String creationDate, Users user) throws IOException {
         Enterprise enterprise =  new Enterprise();
-        String _logo = Utils.addMultiPartFile("logo", logo);
-        String _banniere = Utils.addMultiPartFile("banniere",banniere);
+        String _logo = fileStorage.save("logo", logo);
+        String _banniere = fileStorage.save("banniere", banniere);
         enterprise.setBanniere(_banniere);
         enterprise.setLogo(_logo);
         enterprise.setCreationDate(creationDate);
@@ -87,6 +91,7 @@ public class EnterpriseService {
 
     public Enterprise updateEnterprise(Enterprise enterprise, Long id){
         Enterprise current = getById(id).get();
+        current.setUpdateAt(new Date());
         if (enterprise.getLogo()!=null) current.setLogo(enterprise.getLogo());
         if (enterprise.getBanniere()!=null) current.setBanniere(enterprise.getBanniere());
         if (enterprise.getUsers()!=null) current.setUsers(enterprise.getUsers());
@@ -112,6 +117,7 @@ public class EnterpriseService {
 
     public void delete (Enterprise deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         entrepriseRepository.save(deleteObject);
     }
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,4 +35,10 @@ public class VilleService {
     }
 
     public List<Ville> getByIdPays(Long idPays) {return  villeRepository.findVilleByPays(idPays);}
+
+    public void delete(Ville deleteObject) {
+        deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
+        villeRepository.save(deleteObject);
+    }
 }

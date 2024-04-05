@@ -45,7 +45,10 @@ public class VilleController{
 
     @DeleteMapping("/ville/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id){
-        villeService.deleteById(id);
-        return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        Optional<Ville> deleteObject = villeService.getById(id);
+        if (deleteObject.isPresent()) {
+            villeService.delete(deleteObject.get());
+            return CustomResponseEntity.fromKey("DELETE_SUCCESSFULLY", HttpStatus.OK);
+        }else return new ResponseEntity<>("Not present", HttpStatus.BAD_REQUEST);
     }
 }

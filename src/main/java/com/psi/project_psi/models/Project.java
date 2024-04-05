@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 @Entity
 @DynamicUpdate
-public class Project {
+public class Project extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +30,6 @@ public class Project {
     private Pays pays;
     @ManyToOne
     private Users users;
-    private boolean isDelete=false;
 
     public Project(){
         this.dateCreation = new Date();

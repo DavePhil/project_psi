@@ -7,7 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class Tasks {
+public class Tasks extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,5 +15,4 @@ public class Tasks {
     private String description;
     @ManyToOne
     private Module module;
-    private boolean isDelete = false;
 }

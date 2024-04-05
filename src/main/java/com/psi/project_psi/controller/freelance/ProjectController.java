@@ -19,8 +19,9 @@ public class ProjectController {
     private ProjectService projectService;
 
     @PostMapping("/project")
-    public Project create(@RequestBody Project project){
-        return projectService.create(project);
+    public ResponseEntity<?> create(@RequestBody Project project){
+        Project _project = projectService.create(project);
+        return CustomResponseEntity.fromKey("PROJECT_CREATE", HttpStatus.OK);
     }
 
     @GetMapping("/project/{id}")

@@ -6,11 +6,13 @@ import com.psi.project_psi.models.State;
 import com.psi.project_psi.models.Users;
 import com.psi.project_psi.repository.ArticleRepository;
 import com.psi.project_psi.utils.Utils;
+import com.psi.project_psi.utils.file.FileStorageImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
+    @Autowired
+    FileStorageImpl fileStorage;
 
     public Article create(Article article){
         return articleRepository.save(article);
@@ -30,11 +34,12 @@ public class ArticleService {
     }
     public void delete (Article deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         articleRepository.save(deleteObject);
     }
     public Article create(MultipartFile photo, String name, Long prix, Categorie categorie, String description, Users users) throws IOException {
         Article article = new Article();
-        String _photo = Utils.addMultiPartFile("photoArticle",photo);
+        String _photo = fileStorage.save("photoArticle", photo);
         article.setCategorie(categorie);
         article.setNom(name);
         article.setPrix(prix);
@@ -48,7 +53,7 @@ public class ArticleService {
         if (categorie!=null) _article.setCategorie(categorie);
         if (description!=null) _article.setDescription(description);
         if (!photo.isEmpty()) {
-            String _photo = Utils.addMultiPartFile("photoArticle",photo);
+            String _photo = fileStorage.save("photoArticle", photo);
             _article.setPhoto(_photo);
         }
         if (name!=null)  _article.setNom(name);
@@ -78,5 +83,8 @@ public class ArticleService {
     }
     public List<Article> articlesPlusVendusParCategorie(Long idCategorie){
         return articleRepository.ArticlesPlusVendusParCategorie(idCategorie);
+    }
+    public List<Article> articlesValidateByCategorie(Long idCategorie){
+        return articleRepository.findValidateArticleByCategorie(idCategorie);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity
 @DynamicUpdate
-public class Module {
+public class Module extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,5 +18,5 @@ public class Module {
     private String description;
     @ManyToOne
     private Project project;
-    private boolean isDelete = false;
+
 }

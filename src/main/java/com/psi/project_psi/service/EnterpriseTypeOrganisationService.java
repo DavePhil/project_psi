@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -32,6 +33,7 @@ public class EnterpriseTypeOrganisationService {
     }
     public void delete (EnterpriseTypeOrganisation deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         organisationRepository.save(deleteObject);
     }
 }

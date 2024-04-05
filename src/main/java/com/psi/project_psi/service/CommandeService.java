@@ -7,6 +7,7 @@ import com.psi.project_psi.repository.CommandeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -25,6 +26,7 @@ public class CommandeService {
     }
     public void delete (Commandes deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         commandeRepository.save(deleteObject);
     }
     public int modifyState(State articleState, Long id){

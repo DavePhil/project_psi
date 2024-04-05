@@ -4,6 +4,7 @@ package com.psi.project_psi.service;
 import com.psi.project_psi.models.*;
 import com.psi.project_psi.repository.ProfileRepository;
 import com.psi.project_psi.utils.Utils;
+import com.psi.project_psi.utils.file.FileStorageImpl;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -26,6 +27,8 @@ public class ProfileService {
 
     @Autowired
     ProfileRepository profileRepository;
+    @Autowired
+    FileStorageImpl fileStorage;
 
     public Profile create(Profile profile){
         return profileRepository.save(profile);
@@ -45,8 +48,8 @@ public class ProfileService {
 
     public Profile create(String description, MultipartFile cv, MultipartFile photo, Users users, List<Competences> competences, Domain domain, String linkedIn) throws IOException {
         Profile profile = new Profile();
-        String _photo = Utils.addMultiPartFile("photo",photo);
-        String _cv = Utils.addMultiPartFile("cv",cv);
+        String _photo = fileStorage.save("photo",photo);
+        String _cv = fileStorage.save("cv",cv);
         profile.setCurriculumVitae(_cv);
         profile.setDescription(description);
         profile.setUsers(users);

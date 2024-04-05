@@ -115,4 +115,8 @@ public class ArticleController {
     public List<Article> getArticlesPlusVendusParCategorie(@PathVariable("idCategorie") Long idCategorie){
         return articleService.articlesPlusVendusParCategorie(idCategorie);
     }
+    @GetMapping("/articleValidateParCategorie/{idCategorie}")
+    public List<Article> getValidateArticleByCategorie(@PathVariable("idCategorie") Long idCategorie){
+        return articleService.articlesValidateByCategorie(idCategorie);
+    }
 }

@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Data
 @Entity
 @DynamicUpdate
-public class Admin {
+public class Admin extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +19,6 @@ public class Admin {
     @Transient
     @JsonIgnore
     private UserFunction userFunction;
-    private boolean isDelete = false;
+
 
 }

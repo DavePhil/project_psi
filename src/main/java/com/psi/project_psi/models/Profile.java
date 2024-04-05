@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @DynamicUpdate
-public class Profile {
+public class Profile extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +29,5 @@ public class Profile {
     @ManyToOne
     private Domain domain;
     private State state=State.EnAttente;
-    private boolean isDelete = false;
+
 }

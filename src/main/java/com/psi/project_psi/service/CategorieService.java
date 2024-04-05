@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -26,6 +27,7 @@ public class CategorieService {
 
     public void delete (Categorie deleteObject){
         deleteObject.setDelete(true);
+        deleteObject.setDeleteAt(new Date());
         categorieRepository.save(deleteObject);
     }
 }
