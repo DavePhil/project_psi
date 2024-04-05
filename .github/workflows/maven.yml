@@ -34,7 +34,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "./target/psi-backend.jar"
           target: C:\Users\Administrator\Desktop\project\project_psi
-
       - name: executing project
         uses: appleboy/ssh-action@v1.0.3
         with:
