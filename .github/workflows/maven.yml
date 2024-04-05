@@ -26,6 +26,7 @@ jobs:
           script: |
             cd C:\Users\Administrator\Desktop\project\project_psi
             ./stop.bat
+            rm C:\Users\Administrator\Desktop\project\project_psi/target/psi-backend.jar
       - name: Copy JAR file
         uses: appleboy/scp-action@v0.1.7
         with:
