@@ -25,7 +25,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd C:\Users\Administrator\Desktop\project\project_psi
-            ./exec.bat
+            ./stop.bat
       - name: Copy JAR file
         uses: appleboy/scp-action@v0.1.7
         with:
