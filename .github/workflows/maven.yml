@@ -15,11 +15,17 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: maven
-      - name: Create env file
-        run: |
-          echo "${{ secrets.ENV_FILE }}" > .env
       - name: Build with Maven
         run: mvn clean install -DskipTests=true
+      - name: stopping project
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.WINDOWS_SERVER_HOST }}
+          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd C:\Users\Administrator\Desktop\project\project_psi
+            ./exec.bat
       - name: Copy JAR file
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -37,12 +43,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd C:\Users\Administrator\Desktop\project\project_psi
-            try {
-              Invoke-WebRequest -Uri "http://localhost:4000/actuator/shutdown" -Method Post -ContentType "application/json" -Body "{}" -ErrorAction Stop
-              Write-Output "L'application Spring Boot a été arrêtée avec succès."
-            } catch {
-              Write-Output "Erreur lors de l'arrêt de l'application Spring Boot : $_"
-            }
             ./exec.bat
             
             
