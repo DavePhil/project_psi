@@ -24,9 +24,8 @@ jobs:
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd C:\Users\Administrator\Desktop\project\project_psi
-            ./stop.bat
-            rm C:\Users\Administrator\Desktop\project\project_psi/target/psi-backend.jar
+            cmd.exe /K C:\Users\Administrator\Desktop\project\project_psi\stop.bat
+            rm C:\Users\Administrator\Desktop\project\project_psi\target\psi-backend.jar
       - name: Copy JAR file
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -43,8 +42,7 @@ jobs:
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd C:\Users\Administrator\Desktop\project\project_psi
-            ./exec.bat
+            cmd.exe /K C:\Users\Administrator\Desktop\project\project_psi\exec.bat
             
             
             
