@@ -30,7 +30,7 @@ import org.springframework.context.annotation.Bean;
             ),
             @Server(
                     description = "prod env",
-                    url = "https://app.panafrican-space.net/"
+                    url = "https://panafrican-space.net/api/"
             )
         }
 )
