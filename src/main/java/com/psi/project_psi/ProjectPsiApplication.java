@@ -44,6 +44,7 @@ public class ProjectPsiApplication implements CommandLineRunner {
             // Si l'administrateur n'existe pas, créez-le
             Users admin = new Users();
             admin.setRole(Role.SUPER_ADMIN);
+            admin.setEmail("administrator");
             admin.setPassword("admin#pwd0");
             userService.CreateUser(admin);
         }
