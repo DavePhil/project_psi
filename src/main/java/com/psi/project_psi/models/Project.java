@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,6 +21,9 @@ public class Project extends BaseEntity {
     private Long maxAmount;
     private Date delay;
     private String monnaie;
+    @OneToMany
+    private List<Competences> technicalRequirements;
+    private String regulatoryCompliance; // Si plusieurs, il m'envoie un string séparé de virgules regulatory
 //    private State state = State.EnAttente;
     private Date dateCreation;
     @ManyToOne

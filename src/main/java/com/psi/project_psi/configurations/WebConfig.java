@@ -3,6 +3,8 @@ package com.psi.project_psi.configurations;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.HandlerTypePredicate;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -20,4 +22,8 @@ public class WebConfig implements WebMvcConfigurer {
         configurer.addPathPrefix("/api", HandlerTypePredicate.forBasePackage("com.psi.project_psi.controller"));
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new RequestLoggingInterceptor());
+    }
 }

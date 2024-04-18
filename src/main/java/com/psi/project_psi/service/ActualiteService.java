@@ -5,6 +5,7 @@ import com.psi.project_psi.models.Admin;
 import com.psi.project_psi.models.NewsLetterSouscription;
 import com.psi.project_psi.repository.ActualiteRepository;
 import com.psi.project_psi.utils.Utils;
+import com.psi.project_psi.utils.file.FileStorageImpl;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,14 @@ public class ActualiteService {
     NewsLetterSouscriptionService newsLetterSouscriptionService;
     @Autowired
     MailService mailService;
+    @Autowired
+    FileStorageImpl fileStorage;
     public Actualite create(String titre, String description, MultipartFile image, Admin admin) throws IOException {
         Actualite actualite = new Actualite();
         actualite.setAdmin(admin);
         actualite.setTitle(titre);
         actualite.setDescription(description);
-        String _photo = Utils.addMultiPartFile("photo",image);
+        String _photo = fileStorage.save("photo",image);
         actualite.setImage(_photo);
         Iterable<NewsLetterSouscription> souscriptions =  newsLetterSouscriptionService.getAll();
         for (NewsLetterSouscription souscription : souscriptions){

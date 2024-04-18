@@ -54,7 +54,6 @@ public class ProfileController {
         if (Utils.verifyFileExtensionType(cv)) return  CustomResponseEntity.fromKey("TYPE_CV_NON_PRIS_EN_CHARGE", HttpStatus.BAD_REQUEST);
         if (profileService.findByUser(users.getId()).isPresent()) return CustomResponseEntity.fromKey("USER_ALREADY_HAVE_A_PROFILE", HttpStatus.BAD_REQUEST);
         Profile profile = profileService.create(description, cv, photo, users, competences, domain, linkedIn);
-        System.out.println(profile);
         return new ResponseEntity<>(profile, HttpStatus.OK);
     }
 

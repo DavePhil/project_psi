@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,10 +32,16 @@ public class Users extends BaseEntity implements UserDetails {
     @OneToOne(mappedBy = "users")
     private Profile profile;
     // Rajouter la contrainte d'intégrité qui supprime tous les bankAccounts si l'utilisateur est supprimé
-
     @Enumerated(EnumType.STRING)
     private Role role;
-
+    // Il envoie un string séparé par des virgules si plusieurs pour collaboration preference, communication channels, language, toolsAndSoftware
+    private String collaborationPreference;
+    private String language;
+    private String toolsAndSoftware;
+    private String Price;
+    // Permet d'évaluer un utilisateur
+    private int totalRatings;
+    private int Stars;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -73,4 +80,6 @@ public class Users extends BaseEntity implements UserDetails {
     public String getUserName() {
         return userName;
     }
+
+
 }

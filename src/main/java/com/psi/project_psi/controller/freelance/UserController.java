@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
@@ -113,5 +114,23 @@ public class UserController {
     @GetMapping("/users")
     public List<Users> getAllUsers(){
         return userService.findAll();
+    }
+
+    @PostMapping("/evaluateUser/{idUser}/{stars}")
+    public ResponseEntity<?> evaluateUser(@PathVariable("stars") Integer stars, @PathVariable("idUser") Long idUser){
+        Optional<Users> optionalUser = userService.getById(idUser);
+        if (optionalUser.isPresent()) {
+            Users user = optionalUser.get();
+            int currentStars = user.getStars();
+            int totalRatings = user.getTotalRatings();
+            // Mettre à jour le nombre total d'évaluations et de notes
+            totalRatings++;
+            user.setTotalRatings(totalRatings);
+            user.setStars((currentStars * (totalRatings - 1) + stars) / totalRatings);
+            userService.save(user);
+            return CustomResponseEntity.fromKey("CALCULATE_RATE_SUCCESSFULLY", HttpStatus.OK);
+        } else {
+            return CustomResponseEntity.fromKey("RESSOURCE_INTROUVABLE", HttpStatus.BAD_REQUEST);
+        }
     }
 }

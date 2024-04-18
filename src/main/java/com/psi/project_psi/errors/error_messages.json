@@ -78,5 +78,9 @@
   "DELETE_SUCCESSFULLY": {
     "en": "Deletion successfully completed",
     "fr": "Suppression effectuée avec succès"
+  },
+  "CALCULATE_RATE_SUCCESSFULLY": {
+    "en": "User rating updated successfully",
+    "fr": "L'évaluation de l'utilisateur a été mise à jour avec succès"
   }
 }

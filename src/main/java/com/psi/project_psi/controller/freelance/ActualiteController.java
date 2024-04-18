@@ -4,6 +4,7 @@ import com.psi.project_psi.errors.CustomResponseEntity;
 import com.psi.project_psi.models.Actualite;
 import com.psi.project_psi.models.Admin;
 import com.psi.project_psi.service.ActualiteService;
+import com.psi.project_psi.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,13 @@ public class ActualiteController {
     private ActualiteService actualiteService;
 
     @PostMapping("/actualite")
-    public Actualite create(@RequestParam("title") String title, @RequestParam(value = "description", required = false) String description,
+    public ResponseEntity<?> create(@RequestParam("title") String title, @RequestParam(value = "description", required = false) String description,
                             @RequestParam(value = "image", required = false)MultipartFile image , @RequestParam(value = "admin", required = false) Admin admin) throws IOException {
-        return actualiteService.create(title,description,image,admin);
+        if (Utils.verifyImageExtension(image)){
+            return CustomResponseEntity.fromKey("TYPE_IMAGE_NON_PRIS_EN_CHARGE", HttpStatus.BAD_REQUEST);
+        }
+        Actualite actualite = actualiteService.create(title,description,image,admin);
+        return ResponseEntity.ok(actualite);
     }
 
     @GetMapping("/actualite/{id}")
