@@ -33,6 +33,7 @@ public class Users extends BaseEntity implements UserDetails {
     private Profile profile;
     // Rajouter la contrainte d'intégrité qui supprime tous les bankAccounts si l'utilisateur est supprimé
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", columnDefinition = "VARCHAR(255) DEFAULT 'USER'")
     private Role role;
     // Il envoie un string séparé par des virgules si plusieurs pour collaboration preference, communication channels, language, toolsAndSoftware
     private String collaborationPreference;

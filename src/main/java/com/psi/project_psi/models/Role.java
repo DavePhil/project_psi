@@ -2,5 +2,6 @@ package com.psi.project_psi.models;
 
 public enum Role {
     ADMIN,
-    USER
+    USER,
+    SUPER_ADMIN
 }

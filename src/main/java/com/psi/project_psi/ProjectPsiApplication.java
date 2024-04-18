@@ -1,7 +1,11 @@
 package com.psi.project_psi;
 
+import com.psi.project_psi.models.Role;
+import com.psi.project_psi.models.Users;
+import com.psi.project_psi.service.UserService;
 import com.psi.project_psi.utils.file.FileStorageImpl;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +23,8 @@ public class ProjectPsiApplication implements CommandLineRunner {
     }
     @Resource
     FileStorageImpl storageService;
+    @Autowired
+    UserService userService;
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -34,6 +40,13 @@ public class ProjectPsiApplication implements CommandLineRunner {
 
     @Override
     public void run(String... arg) throws Exception {
+        if (!userService.adminExist()) {
+            // Si l'administrateur n'existe pas, créez-le
+            Users admin = new Users();
+            admin.setRole(Role.SUPER_ADMIN);
+            admin.setPassword("admin#pwd0");
+            userService.CreateUser(admin);
+        }
         storageService.init();
     }
 

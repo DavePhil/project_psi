@@ -86,7 +86,9 @@ public class UserService {
         return userRepository.save(users);
     }
 
-
+    public boolean adminExist(){
+        return userRepository.findByEmail("administrator").isPresent();
+    }
     public void save(Users user) {
         user.setUpdateAt(new Date());
         userRepository.save(user);
