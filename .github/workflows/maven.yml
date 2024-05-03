@@ -34,14 +34,14 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "./target/psi-backend.jar"
           target: C:\Users\Administrator\Desktop\project\project_psi
-      - name: executing project
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.WINDOWS_SERVER_HOST }}
-          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cmd.exe /C start /B C:\Users\Administrator\Desktop\project\project_psi\exec.bat
+#      - name: executing project
+#        uses: appleboy/ssh-action@v1.0.3
+#        with:
+#          host: ${{ secrets.WINDOWS_SERVER_HOST }}
+#          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          script: |
+#            cmd.exe /C start /B C:\Users\Administrator\Desktop\project\project_psi\exec.bat
             
             
             
