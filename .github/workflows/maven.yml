@@ -41,8 +41,7 @@ jobs:
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd C:\Users\Administrator\Desktop\project\project_psi
-            'bash -s' < run_project.sh
+            cd C:\Users\Administrator\Desktop\project\project_psi && bash run_project.sh
             
             
             
