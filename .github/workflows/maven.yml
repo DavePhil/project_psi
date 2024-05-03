@@ -42,6 +42,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cmd.exe /K C:\Users\Administrator\Desktop\project\project_psi\exec.bat
+          pty: true
             
             
             
