@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cmd.exe /C start \"\" C:\Users\Administrator\Desktop\project\project_psi\exec.bat
+            cmd.exe /C start /B C:\Users\Administrator\Desktop\project\project_psi\exec.bat
             
             
             
