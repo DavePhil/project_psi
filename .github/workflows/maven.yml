@@ -35,8 +35,14 @@ jobs:
           source: "./target/psi-backend.jar"
           target: C:\Users\Administrator\Desktop\project\project_psi
       - name: executing project
-        run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.WINDOWS_SERVER_USERNAME }}@${{ secrets.WINDOWS_SERVER_HOST }} "cmd.exe /C C:\Users\Administrator\Desktop\project\project_psi\exec.bat"
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.WINDOWS_SERVER_HOST }}
+          username: ${{ secrets.WINDOWS_SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cmd.exe /C start \"\" C:\Users\Administrator\Desktop\project\project_psi\exec.bat
+            
             
             
             
